@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Problem - SandScope</title>
+    <meta name="description" content="Understanding the challenges in traditional sand grain analysis methods">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <a href="../index.html" class="nav-logo">
+                    <span class="logo-icon">🌊</span>
+                    <span class="logo-text">SandScope</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-links desktop-nav">
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="problem.html" class="nav-link">Problem</a>
+                    <a href="solution.html" class="nav-link">Solution</a>
+                    <a href="technology.html" class="nav-link">Technology</a>
+                    <a href="impact.html" class="nav-link">Impact</a>
+                    <a href="sdg.html" class="nav-link">SDG Alignment</a>
+                    <a href="mapping.html" class="nav-link">Mapping</a>
+                    <a href="team.html" class="nav-link">Team</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span class="hamburger-icon">☰</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-content">
+                <a href="../index.html" class="mobile-nav-link">Home</a>
+                <a href="problem.html" class="mobile-nav-link">Problem</a>
+                <a href="solution.html" class="mobile-nav-link">Solution</a>
+                <a href="technology.html" class="mobile-nav-link">Technology</a>
+                <a href="impact.html" class="mobile-nav-link">Impact</a>
+                <a href="sdg.html" class="mobile-nav-link">SDG Alignment</a>
+                <a href="mapping.html" class="mobile-nav-link">Mapping</a>
+                <a href="team.html" class="mobile-nav-link">Team</a>
+                <a href="contact.html" class="mobile-nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <div class="wave-background">
+            <svg class="wave-svg wave-slow" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+            <svg class="wave-svg wave-animation" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,80 C400,20 800,100 1200,40 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+        </div>
+
+        <div class="container page-content">
+            <div class="page-header">
+                <h1 class="page-title">The Problem</h1>
+                <p class="page-subtitle">
+                    Traditional sand grain analysis methods are slow, expensive, and inadequate for protecting critical turtle nesting habitats
+                </p>
+            </div>
+
+            <!-- Problem Cards -->
+            <div class="grid grid-cols-2 mb-16">
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title flex items-center gap-3 text-destructive">
+                            <span class="problem-icon">⏰</span>
+                            Time-Consuming Process
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="text-muted">
+                            Laboratory analysis of sand samples can take weeks to complete, delaying critical conservation decisions. By the time results are available, nesting seasons may have passed and opportunities for habitat protection are lost.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title flex items-center gap-3 text-destructive">
+                            <span class="problem-icon">💰</span>
+                            High Costs
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="text-muted">
+                            Professional laboratory analysis costs hundreds of dollars per sample, making comprehensive beach monitoring financially prohibitive for many conservation organizations and research institutions.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title flex items-center gap-3 text-destructive">
+                            <span class="problem-icon">⚠️</span>
+                            Limited Accessibility
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="text-muted">
+                            Specialized equipment and expertise required for traditional analysis are not readily available in remote coastal areas where many critical turtle nesting sites are located.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title flex items-center gap-3 text-destructive">
+                            <span class="problem-icon">🎯</span>
+                            Inadequate Coverage
+                        </h2>
+                    </div>
+                    <div class="card-content">
+                        <p class="text-muted">
+                            Current methods only allow for sparse sampling across large beach areas, missing critical variations in sand composition that could affect turtle nesting success and hatchling survival.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Impact on Turtle Conservation -->
+            <div class="card bg-primary-light">
+                <div class="card-header">
+                    <h2 class="card-title text-2xl text-primary text-center">Impact on Turtle Conservation</h2>
+                </div>
+                <div class="card-content text-center">
+                    <p class="text-lg text-muted mb-6">
+                        Sand grain size directly affects turtle nesting success, egg incubation, and hatchling emergence. Without rapid, accurate analysis, we cannot effectively protect these critical habitats.
+                    </p>
+                    <div class="grid grid-cols-3 gap-6 text-center">
+                        <div class="stat-item">
+                            <div class="stat-number">85%</div>
+                            <div class="stat-label">
+                                of turtle nesting sites lack regular sand monitoring
+                            </div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">3-4 weeks</div>
+                            <div class="stat-label">typical delay for laboratory results</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number">$500+</div>
+                            <div class="stat-label">cost per traditional analysis</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

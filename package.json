@@ -1,0 +1,14 @@
+{
+  "name": "sand-grain-website",
+  "version": "1.0.0",
+  "description": "Revolutionary sand grain analysis technology for turtle conservation and environmental research.",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'Static site - no build required'",
+    "dev": "echo 'Static site - open index.html in browser'",
+    "start": "echo 'Static site - open index.html in browser'"
+  },
+  "keywords": ["sand-analysis", "turtle-conservation", "environmental-research", "grain-analysis"],
+  "author": "Sand Grain Research Team",
+  "license": "MIT"
+}

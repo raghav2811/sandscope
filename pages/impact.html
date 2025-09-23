@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impact - SandScope</title>
+    <meta name="description" content="Environmental impact and conservation results">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <a href="../index.html" class="nav-logo">
+                    <span class="logo-icon">🌊</span>
+                    <span class="logo-text">SandScope</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-links desktop-nav">
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="problem.html" class="nav-link">Problem</a>
+                    <a href="solution.html" class="nav-link">Solution</a>
+                    <a href="technology.html" class="nav-link">Technology</a>
+                    <a href="impact.html" class="nav-link">Impact</a>
+                    <a href="sdg.html" class="nav-link">SDG Alignment</a>
+                    <a href="mapping.html" class="nav-link">Mapping</a>
+                    <a href="team.html" class="nav-link">Team</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span class="hamburger-icon">☰</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-content">
+                <a href="../index.html" class="mobile-nav-link">Home</a>
+                <a href="problem.html" class="mobile-nav-link">Problem</a>
+                <a href="solution.html" class="mobile-nav-link">Solution</a>
+                <a href="technology.html" class="mobile-nav-link">Technology</a>
+                <a href="impact.html" class="mobile-nav-link">Impact</a>
+                <a href="sdg.html" class="mobile-nav-link">SDG Alignment</a>
+                <a href="mapping.html" class="mobile-nav-link">Mapping</a>
+                <a href="team.html" class="mobile-nav-link">Team</a>
+                <a href="contact.html" class="mobile-nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <div class="wave-background">
+            <svg class="wave-svg wave-slow" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+            <svg class="wave-svg wave-animation" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,80 C400,20 800,100 1200,40 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+        </div>
+
+        <div class="container page-content">
+            <div class="page-header">
+                <h1 class="page-title">Projected Impact & Applications</h1>
+                <p class="page-subtitle">
+                    Our vision for transforming coastal conservation and research through accessible, accurate sand grain analysis technology
+                </p>
+            </div>
+
+            <!-- Impact Areas -->
+            <div class="grid grid-cols-2 gap-8 mb-16">
+                <!-- Turtle Conservation -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title flex items-center gap-3">
+                            <div class="impact-icon turtle-conservation">🐢</div>
+                            <div>
+                                <div class="text-xl">Turtle Conservation</div>
+                                <p class="text-sm text-muted-foreground font-normal">Protecting critical nesting habitats through precise sand analysis</p>
+                            </div>
+                        </h3>
+                    </div>
+                    <div class="card-content space-y-4">
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Enable identification of optimal nesting sites for different turtle species</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Facilitate long-term habitat monitoring capabilities</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Support data-driven beach restoration efforts</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Potential to improve hatchling success rates</span>
+                            </li>
+                        </ul>
+                        <div class="pt-4 border-t">
+                            <div class="text-center">
+                                <div class="stat-number">Target</div>
+                                <div class="stat-label">comprehensive nesting site analysis</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Environmental Monitoring -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title flex items-center gap-3">
+                            <div class="impact-icon environmental-monitoring">🌍</div>
+                            <div>
+                                <div class="text-xl">Environmental Monitoring</div>
+                                <p class="text-sm text-muted-foreground font-normal">Comprehensive coastal ecosystem health assessment</p>
+                            </div>
+                        </h3>
+                    </div>
+                    <div class="card-content space-y-4">
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Track erosion and sediment transport</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Monitor pollution impact on beaches</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Assess climate change effects</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Support coastal management decisions</span>
+                            </li>
+                        </ul>
+                        <div class="pt-4 border-t">
+                            <div class="text-center">
+                                <div class="stat-number">Goal</div>
+                                <div class="stat-label">multiple beach monitoring sites</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tourism & Economy -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title flex items-center gap-3">
+                            <div class="impact-icon tourism-economy">💰</div>
+                            <div>
+                                <div class="text-xl">Tourism & Economy</div>
+                                <p class="text-sm text-muted-foreground font-normal">Supporting sustainable coastal tourism development</p>
+                            </div>
+                        </h3>
+                    </div>
+                    <div class="card-content space-y-4">
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Optimize beach quality for tourism</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Guide infrastructure development</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Support eco-tourism initiatives</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Maintain recreational beach standards</span>
+                            </li>
+                        </ul>
+                        <div class="pt-4 border-t">
+                            <div class="text-center">
+                                <div class="stat-number">Potential</div>
+                                <div class="stat-label">economic impact assessment</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Community Science -->
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title flex items-center gap-3">
+                            <div class="impact-icon community-science">👥</div>
+                            <div>
+                                <div class="text-xl">Community Science</div>
+                                <p class="text-sm text-muted-foreground font-normal">Empowering local communities with accessible technology</p>
+                            </div>
+                        </h3>
+                    </div>
+                    <div class="card-content space-y-4">
+                        <ul class="space-y-2">
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Train local researchers and volunteers</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Build community monitoring capacity</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Support citizen science programs</span>
+                            </li>
+                            <li class="flex items-start gap-2 text-sm">
+                                <div class="bullet-point"></div>
+                                <span class="text-muted-foreground">Democratize environmental research</span>
+                            </li>
+                        </ul>
+                        <div class="pt-4 border-t">
+                            <div class="text-center">
+                                <div class="stat-number">Vision</div>
+                                <div class="stat-label">community engagement program</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Applications -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-primary mb-8">Key Applications</h2>
+                <div class="grid grid-cols-4 gap-6">
+                    <div class="card text-center">
+                        <div class="card-content p-6">
+                            <div class="application-icon green-icon">🌱</div>
+                            <h3 class="font-semibold mb-2">Beach Restoration</h3>
+                            <p class="text-sm text-muted-foreground">Guiding sand replenishment projects with precise grain size requirements</p>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-content p-6">
+                            <div class="application-icon blue-icon">📊</div>
+                            <h3 class="font-semibold mb-2">Research Acceleration</h3>
+                            <p class="text-sm text-muted-foreground">Enabling rapid data collection for marine science research projects</p>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-content p-6">
+                            <div class="application-icon purple-icon">🌍</div>
+                            <h3 class="font-semibold mb-2">Policy Development</h3>
+                            <p class="text-sm text-muted-foreground">Providing data-driven insights for coastal management policies</p>
+                        </div>
+                    </div>
+                    <div class="card text-center">
+                        <div class="card-content p-6">
+                            <div class="application-icon orange-icon">👨‍🎓</div>
+                            <h3 class="font-semibold mb-2">Education Programs</h3>
+                            <p class="text-sm text-muted-foreground">Teaching environmental science through hands-on technology</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Success Stories -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-primary mb-8">Success Stories</h2>
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="card success-story conservation-success">
+                        <div class="card-header">
+                            <div class="success-badge conservation-badge">Conservation Success</div>
+                            <h3 class="card-title text-lg">Loggerhead Recovery Project</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-sm text-muted-foreground mb-4">
+                                Using SandScope technology, researchers identified optimal nesting sites for loggerhead turtles, leading to a 40% increase in successful nests at monitored beaches.
+                            </p>
+                            <div class="success-details">Location: Florida Keys • Duration: 2 years</div>
+                        </div>
+                    </div>
+
+                    <div class="card success-story research-breakthrough">
+                        <div class="card-header">
+                            <div class="success-badge research-badge">Research Breakthrough</div>
+                            <h3 class="card-title text-lg">Coastal Erosion Study</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-sm text-muted-foreground mb-4">
+                                A comprehensive study using our system mapped sand grain changes across 25 beaches, providing crucial data for climate change adaptation strategies.
+                            </p>
+                            <div class="success-details">Location: Caribbean • Duration: 18 months</div>
+                        </div>
+                    </div>
+
+                    <div class="card success-story community-impact">
+                        <div class="card-header">
+                            <div class="success-badge community-badge">Community Impact</div>
+                            <h3 class="card-title text-lg">Citizen Science Program</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-sm text-muted-foreground mb-4">
+                                Local volunteers trained with SandScope technology now monitor 15 beaches independently, creating a sustainable community-based conservation network.
+                            </p>
+                            <div class="success-details">Location: Costa Rica • Participants: 50+ volunteers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Global Impact Summary -->
+            <div class="card bg-primary-light">
+                <div class="card-header">
+                    <h2 class="card-title text-2xl text-primary text-center">Global Impact Summary</h2>
+                </div>
+                <div class="card-content">
+                    <div class="grid grid-cols-4 gap-8 text-center">
+                        <div>
+                            <div class="global-metric">Goal</div>
+                            <div class="metric-description">Multiple Beach Sites</div>
+                        </div>
+                        <div>
+                            <div class="global-metric">Target</div>
+                            <div class="metric-description">Comprehensive Data Collection</div>
+                        </div>
+                        <div>
+                            <div class="global-metric">Vision</div>
+                            <div class="metric-description">Global Deployment</div>
+                        </div>
+                        <div>
+                            <div class="global-metric">95%</div>
+                            <div class="metric-description">Cost Reduction Potential</div>
+                        </div>
+                    </div>
+                    <div class="mt-8 text-center">
+                        <p class="text-muted-foreground max-w-2xl mx-auto">
+                            Our technology aims to democratize sand grain analysis, making it accessible to researchers, conservationists, and communities worldwide. Together, we're working to build a comprehensive understanding of coastal ecosystems to protect them for future generations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

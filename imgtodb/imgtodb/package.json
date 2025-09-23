@@ -1,0 +1,25 @@
+{
+  "name": "image-upload-supabase",
+  "version": "1.0.0",
+  "description": "A web application for uploading images to Supabase with upload history",
+  "main": "index.html",
+  "scripts": {
+    "start": "live-server --port=3000",
+    "dev": "live-server --port=3000 --watch=."
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.38.0"
+  },
+  "devDependencies": {
+    "live-server": "^1.2.0"
+  },
+  "keywords": [
+    "supabase",
+    "image-upload",
+    "javascript",
+    "html",
+    "css"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}

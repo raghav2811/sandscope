@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - SandScope</title>
+    <meta name="description" content="Login to access SandScope analysis tools">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <a href="../index.html" class="nav-logo">
+                    <span class="logo-icon">🌊</span>
+                    <span class="logo-text">SandScope</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-links desktop-nav">
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="problem.html" class="nav-link">Problem</a>
+                    <a href="solution.html" class="nav-link">Solution</a>
+                    <a href="technology.html" class="nav-link">Technology</a>
+                    <a href="impact.html" class="nav-link">Impact</a>
+                    <a href="sdg.html" class="nav-link">SDG Alignment</a>
+                    <a href="mapping.html" class="nav-link">Mapping</a>
+                    <a href="team.html" class="nav-link">Team</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span class="hamburger-icon">☰</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-content">
+                <a href="../index.html" class="mobile-nav-link">Home</a>
+                <a href="problem.html" class="mobile-nav-link">Problem</a>
+                <a href="solution.html" class="mobile-nav-link">Solution</a>
+                <a href="technology.html" class="mobile-nav-link">Technology</a>
+                <a href="impact.html" class="mobile-nav-link">Impact</a>
+                <a href="sdg.html" class="mobile-nav-link">SDG Alignment</a>
+                <a href="mapping.html" class="mobile-nav-link">Mapping</a>
+                <a href="team.html" class="mobile-nav-link">Team</a>
+                <a href="contact.html" class="mobile-nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <div class="wave-background">
+            <svg class="wave-svg wave-slow" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+            <svg class="wave-svg wave-animation" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,80 C400,20 800,100 1200,40 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+        </div>
+
+        <div class="container page-content">
+            <div class="page-header">
+                <h1 class="page-title">Login to SandScope</h1>
+                <p class="page-subtitle">
+                    Choose your access type to continue
+                </p>
+            </div>
+
+            <!-- Login Type Selection -->
+            <div class="login-selection">
+                <div class="grid grid-cols-2 gap-8 max-w-4xl mx-auto">
+                    <!-- Scoper Login Button -->
+                    <button class="login-type-card" onclick="showLoginModal('scoper')">
+                        <div class="login-type-icon scoper-icon">🔬</div>
+                        <h2 class="login-type-title">Scoper Login</h2>
+                        <p class="login-type-description">For field researchers with SandScope devices</p>
+                        <div class="login-type-features">
+                            <div class="feature-item">📡 Field data collection</div>
+                            <div class="feature-item">📊 Real-time analysis</div>
+                            <div class="feature-item">🗺️ GPS integration</div>
+                        </div>
+                        <div class="login-type-arrow">→</div>
+                    </button>
+
+                    <!-- User Login Button -->
+                    <button class="login-type-card" onclick="showLoginModal('user')">
+                        <div class="login-type-icon user-icon">👨‍💼</div>
+                        <h2 class="login-type-title">User Login</h2>
+                        <p class="login-type-description">Access SandScore analysis platform</p>
+                        <div class="login-type-features">
+                            <div class="feature-item">🔬 Grain analysis tools</div>
+                            <div class="feature-item">📊 Analysis dashboard</div>
+                            <div class="feature-item">📤 Image upload system</div>
+                        </div>
+                        <div class="login-type-arrow">→</div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Information Cards -->
+            <div class="grid grid-cols-3 gap-6 mt-12">
+                <div class="card text-center">
+                    <div class="card-content p-6">
+                        <div class="login-feature-icon">🔬</div>
+                        <h3 class="font-semibold mb-2">Analysis Tools</h3>
+                        <p class="text-sm text-muted">Access comprehensive sand grain analysis features</p>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-content p-6">
+                        <div class="login-feature-icon">📊</div>
+                        <h3 class="font-semibold mb-2">Data Dashboard</h3>
+                        <p class="text-sm text-muted">View and export your analysis results</p>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-content p-6">
+                        <div class="login-feature-icon">🗺️</div>
+                        <h3 class="font-semibold mb-2">Interactive Maps</h3>
+                        <p class="text-sm text-muted">Visualize sample locations and data</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Help Section -->
+            <div class="card mt-8">
+                <div class="card-header">
+                    <h2 class="card-title">Need Help?</h2>
+                </div>
+                <div class="card-content">
+                    <div class="grid grid-cols-2 gap-6">
+                        <div>
+                            <h4 class="font-semibold mb-2">Scoper Login</h4>
+                            <p class="text-sm text-muted mb-2">Use this login method if you have a physical SandScope device.</p>
+                            <ul class="text-sm text-muted space-y-1">
+                                <li>• Scoper ID is assigned to your device</li>
+                                <li>• Password provided by your administrator</li>
+                                <li>• Enables field data collection</li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 class="font-semibold mb-2">User Login</h4>
+                            <p class="text-sm text-muted mb-2">Access the complete SandScore analysis platform with grain size analysis capabilities.</p>
+                            <ul class="text-sm text-muted space-y-1">
+                                <li>• Full access to SandScore application</li>
+                                <li>• Image upload and grain analysis tools</li>
+                                <li>• Comprehensive analysis dashboard</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t text-center">
+                        <p class="text-sm text-muted">
+                            For assistance, contact: <a href="mailto:support@sandscope.org" class="text-primary hover:underline">support@sandscope.org</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Login Modals -->
+        <!-- Scoper Login Modal -->
+        <div id="scoper-modal" class="login-modal">
+            <div class="modal-overlay" onclick="closeModal()"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">🔬 Scoper Login</h2>
+                    <button class="modal-close" onclick="closeModal()">×</button>
+                </div>
+                <div class="modal-body">
+                    <form id="scoper-login-form" onsubmit="handleScoperLogin(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="scoper-id">Scoper ID</label>
+                            <input type="text" id="scoper-id" name="scoperId" class="form-input" placeholder="Enter your scoper ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="scoper-password">Password</label>
+                            <input type="password" id="scoper-password" name="password" class="form-input" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                <polyline points="10,17 15,12 10,7"></polyline>
+                                <line x1="15" y1="12" x2="3" y2="12"></line>
+                            </svg>
+                            Login as Scoper
+                        </button>
+                    </form>
+                    
+                    <div class="mt-6 p-4 bg-secondary rounded-lg">
+                        <h4 class="font-semibold mb-2 text-sm">Demo Scoper Credentials:</h4>
+                        <div class="text-sm text-muted space-y-1">
+                            <div><strong>Scoper ID:</strong> SCOPE_001</div>
+                            <div><strong>Password:</strong> sand2024</div>
+                            <hr class="my-2">
+                            <div><strong>Scoper ID:</strong> SCOPE_002</div>
+                            <div><strong>Password:</strong> beach2024</div>
+                            <hr class="my-2">
+                            <div><strong>Scoper ID:</strong> SCOPE_003</div>
+                            <div><strong>Password:</strong> turtle2024</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Login Modal -->
+        <div id="user-modal" class="login-modal">
+            <div class="modal-overlay" onclick="closeModal()"></div>
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h2 class="modal-title">👨‍💼 User Login</h2>
+                    <button class="modal-close" onclick="closeModal()">×</button>
+                </div>
+                <div class="modal-body">
+                    <form id="user-login-form" onsubmit="handleUserLogin(event)">
+                        <div class="form-group">
+                            <label class="form-label" for="user-id">User ID</label>
+                            <input type="text" id="user-id" name="userId" class="form-input" placeholder="Enter your user ID" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label" for="user-password">Password</label>
+                            <input type="password" id="user-password" name="password" class="form-input" placeholder="Enter your password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path>
+                                <polyline points="10,17 15,12 10,7"></polyline>
+                                <line x1="15" y1="12" x2="3" y2="12"></line>
+                            </svg>
+                            Login as User
+                        </button>
+                    </form>
+                    
+                    <div class="mt-6 p-4 bg-secondary rounded-lg">
+                        <h4 class="font-semibold mb-2 text-sm">Demo User Credentials:</h4>
+                        <div class="text-sm text-muted space-y-1">
+                            <div><strong>User ID:</strong> researcher01</div>
+                            <div><strong>Password:</strong> research2024</div>
+                            <hr class="my-2">
+                            <div><strong>User ID:</strong> admin01</div>
+                            <div><strong>Password:</strong> admin2024</div>
+                            <hr class="my-2">
+                            <div><strong>User ID:</strong> student01</div>
+                            <div><strong>Password:</strong> student2024</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/script.js"></script>
+    <script>
+        // Login page specific JavaScript
+
+        // Predefined credentials
+        const validScoperCredentials = [
+            { id: 'SCOPE_001', password: 'sand2024' },
+            { id: 'SCOPE_002', password: 'beach2024' },
+            { id: 'SCOPE_003', password: 'turtle2024' }
+        ];
+
+        const validUserCredentials = [
+            { id: 'researcher01', password: 'research2024' },
+            { id: 'admin01', password: 'admin2024' },
+            { id: 'student01', password: 'student2024' }
+        ];
+
+        // Modal functions
+        function showLoginModal(type) {
+            const modal = document.getElementById(type + '-modal');
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+            
+            // Add animation class
+            setTimeout(() => {
+                modal.classList.add('modal-active');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modals = document.querySelectorAll('.login-modal');
+            modals.forEach(modal => {
+                modal.classList.remove('modal-active');
+                setTimeout(() => {
+                    modal.style.display = 'none';
+                }, 300);
+            });
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal with escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+
+        function handleScoperLogin(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const scoperId = formData.get('scoperId');
+            const password = formData.get('password');
+
+            // Check credentials
+            const validCredential = validScoperCredentials.find(
+                cred => cred.id === scoperId && cred.password === password
+            );
+
+            if (validCredential) {
+                // Store login info
+                sessionStorage.setItem('loginType', 'scoper');
+                sessionStorage.setItem('userId', scoperId);
+                
+                showNotification('Login successful! Redirecting to Scoper Monitor...', 'success');
+                
+                // Close modal and redirect to Scoper application
+                closeModal();
+                setTimeout(() => {
+                    window.location.href = '../Scoper/index.html';
+                }, 1500);
+            } else {
+                showNotification('Invalid scoper ID or password. Please try again.', 'error');
+            }
+        }
+
+        function handleUserLogin(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+            const userId = formData.get('userId');
+            const password = formData.get('password');
+
+            // Check credentials
+            const validCredential = validUserCredentials.find(
+                cred => cred.id === userId && cred.password === password
+            );
+
+            if (validCredential) {
+                // Store login info
+                sessionStorage.setItem('loginType', 'user');
+                sessionStorage.setItem('userId', userId);
+                
+                showNotification('Login successful! Redirecting to SandScore...', 'success');
+                
+                // Close modal and redirect to SandScore application
+                closeModal();
+                setTimeout(() => {
+                    window.location.href = '../SandScore/index.html';
+                }, 1500);
+            } else {
+                showNotification('Invalid user ID or password. Please try again.', 'error');
+            }
+        }
+
+        // Auto-fill demo credentials when clicking on them
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.bg-secondary')) {
+                const credentialSection = e.target.closest('.bg-secondary');
+                const credentialText = credentialSection.textContent;
+                
+                // Extract credentials from text
+                const scoperIdMatch = credentialText.match(/Scoper ID:\s*(\S+)/);
+                const userIdMatch = credentialText.match(/User ID:\s*(\S+)/);
+                const passwordMatch = credentialText.match(/Password:\s*(\S+)/);
+                
+                if (scoperIdMatch && passwordMatch) {
+                    document.getElementById('scoper-id').value = scoperIdMatch[1];
+                    document.getElementById('scoper-password').value = passwordMatch[1];
+                } else if (userIdMatch && passwordMatch) {
+                    document.getElementById('user-id').value = userIdMatch[1];
+                    document.getElementById('user-password').value = passwordMatch[1];
+                }
+            }
+        });
+    </script>
+</body>
+</html>

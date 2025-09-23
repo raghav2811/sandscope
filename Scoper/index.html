@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marine Infrastructure Monitor - Professional</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/date-fns/2.29.3/index.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        :root {
+            --primary-dark: #0A0E1A;
+            --primary-medium: #1A1F2E;
+            --primary-light: #2A3441;
+            --accent-blue: #3B82F6;
+            --accent-cyan: #06B6D4;
+            --accent-emerald: #10B981;
+            --accent-amber: #F59E0B;
+            --accent-red: #EF4444;
+            --accent-purple: #8B5CF6;
+            --glass-light: rgba(255, 255, 255, 0.08);
+            --glass-medium: rgba(255, 255, 255, 0.12);
+            --glass-heavy: rgba(255, 255, 255, 0.18);
+            --text-primary: #F8FAFC;
+            --text-secondary: #CBD5E1;
+            --text-muted: #64748B;
+            --border-light: rgba(255, 255, 255, 0.1);
+            --border-medium: rgba(255, 255, 255, 0.2);
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.16), 0 2px 4px rgba(0, 0, 0, 0.12);
+            --shadow-lg: 0 10px 25px rgba(0, 0, 0, 0.19), 0 6px 10px rgba(0, 0, 0, 0.23);
+            --shadow-xl: 0 20px 40px rgba(0, 0, 0, 0.25), 0 10px 20px rgba(0, 0, 0, 0.22);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-medium) 50%, var(--primary-light) 100%);
+            min-height: 100vh; 
+            color: var(--text-primary); 
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Enhanced Background Effects */
+        .background-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .wave-layer {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 150px;
+            opacity: 0.1;
+            animation: wave 15s linear infinite;
+        }
+
+        .wave-layer:nth-child(1) {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%233B82F6' d='M0,160L48,144C96,128,192,96,288,112C384,128,480,192,576,208C672,224,768,192,864,165.3C960,139,1056,117,1152,128C1248,139,1344,181,1392,202.7L1440,224L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+            animation-duration: 15s;
+        }
+
+        .wave-layer:nth-child(2) {
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%2306B6D4' d='M0,256L48,240C96,224,192,192,288,181.3C384,171,480,181,576,186.7C672,192,768,192,864,176C960,160,1056,128,1152,138.7C1248,149,1344,203,1392,229.3L1440,256L1440,320L1392,320C1344,320,1248,320,1152,320C1056,320,960,320,864,320C768,320,672,320,576,320C480,320,384,320,288,320C192,320,96,320,48,320L0,320Z'%3E%3C/path%3E%3C/svg%3E") repeat-x;
+            animation-duration: 20s;
+            animation-direction: reverse;
+            opacity: 0.06;
+        }
+
+        @keyframes wave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .floating-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            opacity: 0.2;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(100vh) translateX(-50px) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.2; }
+            90% { opacity: 0.2; }
+            100% { transform: translateY(-100px) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+
+        /* Header */
+        .header {
+            background: var(--glass-medium);
+            backdrop-filter: blur(24px);
+            border-bottom: 1px solid var(--border-medium);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-md);
+        }
+
+        .header-content {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            font-size: 1.75rem;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: var(--shadow-md);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .logo-subtitle {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .time-range-selector {
+            background: var(--glass-light);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .time-range-selector:hover {
+            background: var(--glass-medium);
+            border-color: var(--border-medium);
+        }
+
+        .back-to-main-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass-light);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            padding: 0.5rem 1rem;
+            color: var(--text-primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .back-to-main-btn:hover {
+            background: var(--glass-medium);
+            border-color: var(--border-medium);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .back-to-main-btn span {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1.25rem;
+            border-radius: 16px;
+            border: 1px solid var(--border-light);
+            background: var(--glass-light);
+            transition: all 0.3s ease;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+            box-shadow: 0 0 10px currentColor;
+        }
+
+        .status-indicator.connected { background: var(--accent-emerald); color: var(--accent-emerald); }
+        .status-indicator.disconnected { background: var(--accent-red); color: var(--accent-red); }
+        .status-indicator.connecting { background: var(--accent-amber); color: var(--accent-amber); }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.1); }
+        }
+
+        .status-text {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .status-details {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1600px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            grid-template-rows: auto;
+            gap: 1.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Enhanced Cards */
+        .card {
+            background: var(--glass-light);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border-light);
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            transform: translateY(-4px) scale(1.01);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--border-medium);
+            background: var(--glass-medium);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-cyan), var(--accent-emerald));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: var(--text-primary);
+        }
+
+        .card-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass-medium);
+            border: 1px solid var(--border-light);
+        }
+
+        .card-status {
+            padding: 0.5rem 1rem;
+            border-radius: 12px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .status-normal {
+            background: rgba(16, 185, 129, 0.15);
+            color: var(--accent-emerald);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .status-warning {
+            background: rgba(245, 158, 11, 0.15);
+            color: var(--accent-amber);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .status-critical {
+            background: rgba(239, 68, 68, 0.15);
+            color: var(--accent-red);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        /* Grid Layout */
+        .orientation-card { grid-column: span 4; }
+        .temperature-card { grid-column: span 4; }
+        .sand-card { grid-column: span 4; }
+        .stats-card { grid-column: span 12; }
+        .chart-card { grid-column: span 8; }
+        .analytics-card { grid-column: span 4; }
+
+        /* Enhanced Orientation Visualization */
+        .orientation-container {
+            position: relative;
+            height: 280px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--primary-medium), var(--primary-light));
+            border: 1px solid var(--border-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .device-3d {
+            width: 140px;
+            height: 80px;
+            position: relative;
+            transform-style: preserve-3d;
+            transition: transform 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .device-body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #8E8E93, #C7C7CC, #F2F2F7);
+            border-radius: 12px;
+            position: relative;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border: 2px solid var(--border-medium);
+        }
+
+        .device-body::before {
+            content: 'MARINE SENSOR';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: var(--primary-dark);
+            font-size: 0.7rem;
+            font-weight: 800;
+            text-align: center;
+            line-height: 1.2;
+        }
+
+        .orientation-data {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .data-item {
+            text-align: center;
+            padding: 1rem;
+            border-radius: 12px;
+            background: var(--glass-light);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+        }
+
+        .data-item:hover {
+            background: var(--glass-medium);
+            transform: translateY(-2px);
+        }
+
+        .data-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .data-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        /* Enhanced Temperature Gauges */
+        .temp-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+
+        .gauge-wrapper {
+            text-align: center;
+        }
+
+        .gauge-container {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto;
+            position: relative; /* Stays as positioning context */
+        }
+
+        /* This new pseudo-element will be the rotating gradient */
+        .gauge-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 0deg,
+                var(--accent-blue) 0deg,
+                var(--accent-cyan) 90deg,
+                var(--accent-emerald) 180deg,
+                var(--accent-amber) 270deg,
+                var(--accent-red) 360deg
+            );
+            animation: rotate 30s linear infinite;
+        }
+
+        .gauge-ring {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            position: relative; /* Keeps it in the flow */
+            /* REMOVED background and animation from here */
+            padding: 8px;
+        }
+
+        .gauge-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            background: var(--primary-medium);
+            border: 2px solid var(--border-light);
+            position: relative; /* Ensures this is on top of the ::before element */
+        }
+
+        .gauge-temp {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .gauge-unit {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .gauge-label {
+            margin-top: 1rem;
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Enhanced Sand Level Visualization */
+        .sand-container {
+            position: relative;
+            height: 320px;
+            border-radius: 16px;
+            overflow: hidden;
+            background: linear-gradient(180deg, var(--accent-blue) 0%, var(--accent-cyan) 30%, #F4E4C1 100%);
+            border: 1px solid var(--border-light);
+        }
+
+        .sand-level {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(0deg, #C5B893, #E6D3A3, #F4E4C1);
+            transition: height 0.8s cubic-bezier(0.25, 1, 0.5, 1);
+            border-top: 3px solid #A5956B;
+            box-shadow: 0 -10px 30px rgba(197, 184, 147, 0.3);
+        }
+
+        .reference-line {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--accent-red);
+            opacity: 0.9;
+            box-shadow: 0 0 10px var(--accent-red);
+        }
+
+        .reference-line::after {
+            content: 'Normal Level';
+            position: absolute;
+            right: 15px;
+            top: -30px;
+            font-size: 0.8rem;
+            color: var(--accent-red);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-weight: 600;
+        }
+
+        .level-indicator {
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            border: 2px solid var(--border-light);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Enhanced Statistics Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 1.5rem;
+            border-radius: 16px;
+            background: var(--glass-light);
+            border: 1px solid var(--border-light);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-blue), var(--accent-emerald));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-item:hover {
+            background: var(--glass-medium);
+            transform: translateY(-4px);
+        }
+
+        .stat-item:hover::before {
+            transform: scaleX(1);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-emerald);
+            margin-bottom: 0.5rem;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        /* Enhanced Chart Styling */
+        .chart-container {
+            height: 400px;
+            position: relative;
+        }
+
+        .chart-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .chart-button {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--border-light);
+            background: var(--glass-light);
+            color: var(--text-primary);
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .chart-button.active {
+            background: var(--accent-blue);
+            border-color: var(--accent-blue);
+            color: white;
+        }
+
+        .chart-button:hover {
+            background: var(--glass-medium);
+        }
+
+        /* Analytics Panel */
+        .analytics-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .metric-card {
+            padding: 1rem;
+            border-radius: 12px;
+            background: var(--glass-light);
+            border: 1px solid var(--border-light);
+        }
+
+        .metric-title {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .metric-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+
+        .metric-change {
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-top: 0.25rem;
+        }
+
+        .metric-change.positive { color: var(--accent-emerald); }
+        .metric-change.negative { color: var(--accent-red); }
+
+        /* Alert System */
+        .alert-panel {
+            position: fixed;
+            top: 100px;
+            right: 2rem;
+            width: 400px;
+            z-index: 1100;
+            pointer-events: none;
+        }
+
+        .alert {
+            pointer-events: all;
+            background: var(--glass-medium);
+            backdrop-filter: blur(24px);
+            border: 1px solid var(--border-medium);
+            padding: 1.25rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            transform: translateX(450px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .alert.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+
+        .alert-header {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .alert-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .alert-title {
+            font-weight: 700;
+            flex: 1;
+            font-size: 1.1rem;
+        }
+
+        .alert-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1.5rem;
+            padding: 0.25rem;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .alert-close:hover {
+            background: var(--glass-light);
+            color: var(--text-primary);
+        }
+
+        .alert-body {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .alert-critical {
+            border-left: 4px solid var(--accent-red);
+        }
+
+        .alert-warning {
+            border-left: 4px solid var(--accent-amber);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1200px) {
+            .orientation-card, .temperature-card, .sand-card { grid-column: span 6; }
+            .chart-card { grid-column: span 12; }
+            .analytics-card { grid-column: span 12; }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 1rem; grid-template-columns: 1fr; }
+            .orientation-card, .temperature-card, .sand-card,
+            .stats-card, .chart-card, .analytics-card { grid-column: span 1; }
+            .header-content { padding: 1rem; }
+            .temp-container { grid-template-columns: 1fr; }
+            .alert-panel { width: calc(100% - 2rem); right: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-effects">
+        <div class="wave-layer"></div>
+        <div class="wave-layer"></div>
+        <div class="floating-particles" id="particles"></div>
+    </div>
+
+    <div id="alertPanel" class="alert-panel"></div>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <div class="logo-icon" aria-hidden="true">🌊</div>
+                <div class="logo-text">
+                    <h1>Marine Infrastructure Monitor</h1>
+                    <div class="logo-subtitle">Professional Edition</div>
+                </div>
+            </div>
+            <div class="header-controls">
+                <a href="../index.html" class="back-to-main-btn" title="Back to Main Site">
+                    <span>←</span> Main Site
+                </a>
+                <select class="time-range-selector" id="timeRange">
+                    <option value="1h">Last Hour</option>
+                    <option value="6h">Last 6 Hours</option>
+                    <option value="24h" selected>Last 24 Hours</option>
+                    <option value="7d">Last 7 Days</option>
+                </select>
+                <div class="connection-status" role="status" aria-live="polite">
+                    <div id="statusDot" class="status-indicator connecting" aria-hidden="true"></div>
+                    <div>
+                        <div class="status-text" id="statusText">Connecting...</div>
+                        <div class="status-details" id="statusDetails">Initializing connection</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="card orientation-card" role="region" aria-labelledby="orientation-title">
+            <div class="card-header">
+                <div class="card-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="#3B82F6" stroke-width="1.5" fill="#1A1F2E"/>
+        <path d="M12 2 L15 12 L12 10 L9 12 Z" fill="#EF4444"/>
+        <path d="M12 22 L15 12 L12 14 L9 12 Z" fill="#F8FAFC"/>
+    </svg>
+</div>
+                    Device Orientation & Stability
+                </div>
+                <div id="orientationStatus" class="card-status status-normal">Stable</div>
+            </div>
+            <div class="orientation-container" role="img" aria-label="3D device orientation visualization">
+                <div id="device3D" class="device-3d">
+                    <div class="device-body"></div>
+                </div>
+            </div>
+            <div class="orientation-data">
+                <div class="data-item">
+                    <div class="data-label">Axis X</div>
+                    <div class="data-value" id="accelX">0.00g</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Axis Y</div>
+                    <div class="data-value" id="accelY">0.00g</div>
+                </div>
+                <div class="data-item">
+                    <div class="data-label">Axis Z</div>
+                    <div class="data-value" id="accelZ">1.00g</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card temperature-card" role="region" aria-labelledby="temp-title">
+            <div class="card-header">
+                <div class="card-title" id="temp-title">
+                    <div class="card-icon">
+    <svg width="24" height="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14 14.76V3.5a2.5 2.5 0 0 0-5 0v11.26a4.5 4.5 0 1 0 5 0z" fill="none" stroke="#64748B" stroke-width="2"/>
+        <circle cx="12" cy="18.5" r="2.5" fill="#EF4444"/>
+        <rect x="11" y="11" width="2" height="8" fill="#EF4444" rx="1"/>
+    </svg>
+</div>
+                    Temperature Monitoring
+                </div>
+                <div id="tempStatus" class="card-status status-normal">Optimal</div>
+            </div>
+            <div class="temp-container">
+                <div class="gauge-wrapper">
+                    <div class="gauge-container">
+                        <div class="gauge-ring">
+                            <div class="gauge-inner">
+                                <div id="tempInternal" class="gauge-temp">--</div>
+                                <div class="gauge-unit">°C</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gauge-label">Internal (Pipe)</div>
+                </div>
+                <div class="gauge-wrapper">
+                    <div class="gauge-container">
+                        <div class="gauge-ring">
+                            <div class="gauge-inner">
+                                <div id="tempAmbient" class="gauge-temp">--</div>
+                                <div class="gauge-unit">°C</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="gauge-label">Ambient (Water)</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card sand-card" role="region" aria-labelledby="sand-title">
+            <div class="card-header">
+                <div class="card-title" id="sand-title">
+                    <div class="card-icon">🏖️</div>
+                    Sand Level & Erosion
+                </div>
+                <div id="sandStatus" class="card-status status-normal">Normal</div>
+            </div>
+            <div class="sand-container" role="img" aria-label="Sand level visualization">
+                <div id="sandLevel" class="sand-level" style="height: 50%"></div>
+                <div id="referenceLine" class="reference-line" style="bottom: 50%"></div>
+                <div id="levelIndicator" class="level-indicator">-- cm</div>
+            </div>
+            <div class="data-item" style="margin-top: 1rem;">
+                <div class="data-label">Erosion Risk Assessment</div>
+                <div id="depthStatusText" class="data-value">Analyzing...</div>
+            </div>
+        </section>
+        
+        <section class="card stats-card" role="region" aria-labelledby="stats-title">
+            <div class="card-header">
+                <div class="card-title" id="stats-title">
+                    <div class="card-icon">📊</div>
+                    System Performance Analytics
+                </div>
+                <div class="card-status status-normal">All Systems Operational</div>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div id="totalReadings" class="stat-value">--</div>
+                    <div class="stat-label">Total Readings</div>
+                </div>
+                <div class="stat-item">
+                    <div id="uprightReadings" class="stat-value">--</div>
+                    <div class="stat-label">Stable Readings</div>
+                </div>
+                <div class="stat-item">
+                    <div id="uprightPercentage" class="stat-value">--%</div>
+                    <div class="stat-label">Stability Rate</div>
+                </div>
+                <div class="stat-item">
+                    <div id="avgTemp" class="stat-value">--°C</div>
+                    <div class="stat-label">Avg Temperature</div>
+                </div>
+                <div class="stat-item">
+                    <div id="maxDepth" class="stat-value">-- cm</div>
+                    <div class="stat-label">Max Sand Depth</div>
+                </div>
+                <div class="stat-item">
+                    <div id="dataHealth" class="stat-value">--%</div>
+                    <div class="stat-label">Data Quality</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="card chart-card" role="region" aria-labelledby="chart-title">
+            <div class="card-header">
+                <div class="card-title" id="chart-title">
+                    <div class="card-icon">📈</div>
+                    Real-time Data Trends
+                </div>
+            </div>
+            <div class="chart-controls">
+                <button class="chart-button active" data-metric="temperature">Temperature</button>
+                <button class="chart-button" data-metric="sand">Sand Level</button>
+                <button class="chart-button" data-metric="orientation">Orientation</button>
+                <button class="chart-button" data-metric="all">All Metrics</button>
+            </div>
+            <div class="chart-container">
+                <canvas id="dataChart"></canvas>
+            </div>
+        </section>
+
+        <section class="card analytics-card" role="region" aria-labelledby="analytics-title">
+            <div class="card-header">
+                <div class="card-title" id="analytics-title">
+                    <div class="card-icon">🔍</div>
+                    Predictive Analytics
+                </div>
+            </div>
+            <div class="analytics-panel">
+                <div class="metric-card">
+                    <div class="metric-title">🌊 Coastal Stability</div>
+                    <div class="metric-value" id="predictionErosion">--</div>
+                    <div class="metric-change" id="predictionErosionDesc">Analyzing trend...</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">🐢 Ecological Stress</div>
+                    <div class="metric-value" id="predictionEcological">--</div>
+                    <div class="metric-change" id="predictionEcologicalDesc">Monitoring water temp...</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">⚙️ Structural Health</div>
+                    <div class="metric-value" id="predictionHealthScore">--</div>
+                    <div class="metric-change" id="predictionHealthScoreDesc">Calculating score...</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-title">🔧 Maintenance Forecast</div>
+                    <div class="metric-value" id="predictionMaintenance">--</div>
+                    <div class="metric-change" id="predictionMaintenanceDesc">Based on health score...</div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // --- ENHANCED CONFIGURATION & SETUP ---
+        const SUPABASE_URL = "https://ydwdaeiiqnutwpoqpare.supabase.co";
+        const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlkd2RhZWlpcW51dHdwb3FwYXJlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg1MzIwMDcsImV4cCI6MjA3NDEwODAwN30.Enwmrumpoobc35URRjuQals1Hw6yGgoofmaTu63yXjc";
+        const TABLE_NAME = 'sensor_readings';
+        const MAX_CHART_POINTS = 100;
+        const NORMAL_SAND_DEPTH = 8.0;
+        const ANALYSIS_WINDOW = 50;
+
+        const { createClient } = supabase;
+        const _supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // Enhanced DOM Element References
+        const dom = {
+            // Status elements
+            statusDot: document.getElementById('statusDot'),
+            statusText: document.getElementById('statusText'),
+            statusDetails: document.getElementById('statusDetails'),
+            
+            // Orientation elements
+            device3D: document.getElementById('device3D'),
+            accelX: document.getElementById('accelX'),
+            accelY: document.getElementById('accelY'),
+            accelZ: document.getElementById('accelZ'),
+            orientationStatus: document.getElementById('orientationStatus'),
+            
+            // Temperature elements
+            tempInternal: document.getElementById('tempInternal'),
+            tempAmbient: document.getElementById('tempAmbient'),
+            tempStatus: document.getElementById('tempStatus'),
+            
+            // Sand level elements
+            sandLevel: document.getElementById('sandLevel'),
+            referenceLine: document.getElementById('referenceLine'),
+            levelIndicator: document.getElementById('levelIndicator'),
+            sandStatus: document.getElementById('sandStatus'),
+            depthStatusText: document.getElementById('depthStatusText'),
+            
+            // Statistics elements
+            totalReadings: document.getElementById('totalReadings'),
+            uprightReadings: document.getElementById('uprightReadings'),
+            uprightPercentage: document.getElementById('uprightPercentage'),
+            avgTemp: document.getElementById('avgTemp'),
+            maxDepth: document.getElementById('maxDepth'),
+            dataHealth: document.getElementById('dataHealth'),
+            
+           // Analytics elements
+            predictionErosion: document.getElementById('predictionErosion'),
+            predictionErosionDesc: document.getElementById('predictionErosionDesc'),
+            predictionEcological: document.getElementById('predictionEcological'),
+            predictionEcologicalDesc: document.getElementById('predictionEcologicalDesc'),
+            predictionHealthScore: document.getElementById('predictionHealthScore'),
+            predictionHealthScoreDesc: document.getElementById('predictionHealthScoreDesc'),
+            predictionMaintenance: document.getElementById('predictionMaintenance'),
+            predictionMaintenanceDesc: document.getElementById('predictionMaintenanceDesc'),
+            
+            // UI elements
+            alertPanel: document.getElementById('alertPanel'),
+            chartCanvas: document.getElementById('dataChart'),
+            timeRange: document.getElementById('timeRange'),
+            chartButtons: document.querySelectorAll('.chart-button')
+        };
+
+        let dataChart;
+        let currentChartMode = 'all';
+        let dataBuffer = [];
+        let analyticsData = {
+            readings: [],
+            tempHistory: [],
+            sandHistory: [],
+            orientationHistory: []
+        };
+        
+        // --- NEW --- Helper function for calculating data trends
+        function linearRegression(data) {
+            const n = data.length;
+            if (n < 2) return { slope: 0, intercept: data[0] ? data[0].y : 0 };
+            let sumX = 0, sumY = 0, sumXY = 0, sumXX = 0;
+            data.forEach(p => {
+                sumX += p.x;
+                sumY += p.y;
+                sumXY += p.x * p.y;
+                sumXX += p.x * p.x;
+            });
+            const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+            const intercept = (sumY - slope * sumX) / n;
+            return { slope, intercept };
+        }
+
+
+        // --- ENHANCED UI UPDATE MODULE ---
+        const UI = {
+            updateOrientation(data) {
+                const { accel_x = 0, accel_y = 0, accel_z = 1, orientation = 'Unknown' } = data;
+                dom.accelX.textContent = `${accel_x.toFixed(3)}g`;
+                dom.accelY.textContent = `${accel_y.toFixed(3)}g`;
+                dom.accelZ.textContent = `${accel_z.toFixed(3)}g`;
+                const pitch = Math.atan2(-accel_x, Math.sqrt(accel_y * accel_y + accel_z * accel_z)) * 180 / Math.PI;
+                const roll = Math.atan2(accel_y, accel_z) * 180 / Math.PI;
+                const yaw = Math.atan2(accel_x, accel_y) * 180 / Math.PI * 0.5;
+                dom.device3D.style.transform = `rotateX(${pitch}deg) rotateY(${roll}deg) rotateZ(${yaw}deg)`;
+                const magnitude = Math.sqrt(accel_x*accel_x + accel_y*accel_y + accel_z*accel_z);
+                let status = 'Stable', statusClass = 'status-normal';
+                const tiltThreshold = 15;
+                const unstableThreshold = 30;
+                if (Math.abs(pitch) > unstableThreshold || Math.abs(roll) > unstableThreshold) {
+                    status = 'Unstable';
+                    statusClass = 'status-critical';
+                } else if (Math.abs(pitch) > tiltThreshold || Math.abs(roll) > tiltThreshold) {
+                    statusClass = 'status-warning';
+                    if (Math.abs(roll) > Math.abs(pitch)) {
+                        status = roll > 0 ? 'Tilted Right' : 'Tilted Left';
+                    } else {
+                        status = pitch > 0 ? 'Tilted Backward' : 'Tilted Forward';
+                    }
+                }
+                dom.orientationStatus.className = `card-status ${statusClass}`;
+                dom.orientationStatus.textContent = status;
+                analyticsData.orientationHistory.push({
+                    timestamp: Date.now(),
+                    pitch, roll, magnitude, stable: statusClass === 'status-normal'
+                });
+                if (analyticsData.orientationHistory.length > ANALYSIS_WINDOW) {
+                    analyticsData.orientationHistory.shift();
+                }
+            },
+
+            updateTemperature(data) {
+                const internal = data.temp_internal || 0;
+                const ambient = data.temp_ambient || 0;
+                dom.tempInternal.textContent = internal.toFixed(1);
+                dom.tempAmbient.textContent = ambient.toFixed(1);
+                const tempDiff = Math.abs(internal - ambient);
+                let status = 'Optimal', statusClass = 'status-normal';
+                if (tempDiff > 5) {
+                    status = 'High Differential'; statusClass = 'status-warning';
+                } else if (internal > 35 || ambient > 30) {
+                    status = 'High Temperature'; statusClass = 'status-critical';
+                }
+                dom.tempStatus.className = `card-status ${statusClass}`;
+                dom.tempStatus.textContent = status;
+                analyticsData.tempHistory.push({
+                    timestamp: Date.now(),
+                    internal, ambient, differential: tempDiff, highTemp: (internal > 35 || ambient > 30)
+                });
+                if (analyticsData.tempHistory.length > ANALYSIS_WINDOW) {
+                    analyticsData.tempHistory.shift();
+                }
+            },
+            
+            updateSandLevel(data) {
+                const distance = data.distance || NORMAL_SAND_DEPTH;
+                const maxVizDepth = NORMAL_SAND_DEPTH * 2.5;
+                const percentage = Math.max(0, Math.min(100, (distance / maxVizDepth) * 100));
+                dom.levelIndicator.textContent = `${distance.toFixed(2)} cm`;
+                dom.sandLevel.style.height = `${100 - percentage}%`;
+                dom.referenceLine.style.bottom = `${100 - ((NORMAL_SAND_DEPTH / maxVizDepth) * 100)}%`;
+                let status = 'Normal', statusClass = 'status-normal';
+                const deviation = distance - NORMAL_SAND_DEPTH;
+                if (deviation < -3.0) {
+                    status = 'High Sedimentation'; statusClass = 'status-critical';
+                    if (data.id) this.showAlert('critical', `Critical sedimentation detected: ${distance.toFixed(2)}cm (${Math.abs(deviation).toFixed(1)}cm above normal).`);
+                } else if (deviation < -1.5) {
+                    status = 'Moderate Sedimentation'; statusClass = 'status-warning';
+                } else if (deviation > 3.0) {
+                    status = 'Severe Erosion Risk'; statusClass = 'status-critical';
+                    if (data.id) this.showAlert('critical', `Severe erosion detected: ${distance.toFixed(2)}cm (${deviation.toFixed(1)}cm below normal).`);
+                } else if (deviation > 1.5) {
+                    status = 'Erosion Warning'; statusClass = 'status-warning';
+                }
+                dom.sandStatus.className = `card-status ${statusClass}`;
+                dom.sandStatus.textContent = status;
+                dom.depthStatusText.textContent = status;
+                analyticsData.sandHistory.push({
+                    timestamp: Date.now(),
+                    distance, deviation, riskLevel: statusClass
+                });
+                if (analyticsData.sandHistory.length > ANALYSIS_WINDOW) {
+                    analyticsData.sandHistory.shift();
+                }
+            },
+
+            async updateStats() {
+                try {
+                    const { count, error } = await _supabase
+                        .from(TABLE_NAME)
+                        .select('*', { count: 'exact', head: true });
+                    if (error) throw error;
+                    dom.totalReadings.textContent = count?.toLocaleString() || '--';
+                    const { data: recentData, error: recentError } = await _supabase
+                        .from(TABLE_NAME)
+                        .select('*')
+                        .order('created_at', { ascending: false })
+                        .limit(ANALYSIS_WINDOW);
+                    if (recentError) throw recentError;
+                    if (recentData && recentData.length > 0) {
+                        analyticsData.readings = recentData;
+                        const uprightCount = recentData.filter(r => r.is_upright).length;
+                        dom.uprightReadings.textContent = uprightCount;
+                        dom.uprightPercentage.textContent = `${((uprightCount / recentData.length) * 100).toFixed(1)}%`;
+                        const avgInternal = recentData.reduce((sum, r) => sum + (r.temp_internal || 0), 0) / recentData.length;
+                        dom.avgTemp.textContent = `${avgInternal.toFixed(1)}°C`;
+                        const maxSandDepth = Math.max(...recentData.map(r => r.distance || 0));
+                        dom.maxDepth.textContent = `${maxSandDepth.toFixed(1)} cm`;
+                        const validReadings = recentData.filter(r => 
+                            r.temp_internal !== null && r.temp_ambient !== null && r.distance !== null
+                        ).length;
+                        dom.dataHealth.textContent = `${((validReadings / recentData.length) * 100).toFixed(0)}%`;
+                    }
+                } catch (error) {
+                    console.error('Error updating statistics:', error);
+                }
+            },
+
+            // ==============================================================================
+            // ======================= UPDATED PREDICTIVE ANALYTICS LOGIC =======================
+            // ==============================================================================
+            updateAnalytics() {
+                if (analyticsData.sandHistory.length < 10) return; // Wait for enough data
+
+                // --- 1. PREDICT COASTAL STABILITY (EROSION/ACCRETION) ---
+                const sandPoints = analyticsData.sandHistory.map((p, i) => ({ x: i, y: p.distance }));
+                const sandTrend = linearRegression(sandPoints);
+                const slope = sandTrend.slope; // A positive slope means distance is increasing, i.e., erosion
+
+                if (slope > 0.05) { // Threshold for significant erosion trend
+                    dom.predictionErosion.textContent = 'Eroding';
+                    dom.predictionErosionDesc.textContent = 'Losing sediment';
+                    dom.predictionErosionDesc.className = 'metric-change negative';
+                } else if (slope < -0.05) { // Threshold for significant accretion trend
+                    dom.predictionErosion.textContent = 'Accreting';
+                    dom.predictionErosionDesc.textContent = 'Gaining sediment';
+                    dom.predictionErosionDesc.className = 'metric-change positive';
+                } else {
+                    dom.predictionErosion.textContent = 'Stable';
+                    dom.predictionErosionDesc.textContent = 'No significant change';
+                    dom.predictionErosionDesc.className = 'metric-change';
+                }
+
+                // --- 2. PREDICT ECOLOGICAL STRESS (FROM WATER TEMPERATURE) ---
+                const avgAmbientTemp = analyticsData.tempHistory.reduce((sum, t) => sum + t.ambient, 0) / analyticsData.tempHistory.length;
+                if (avgAmbientTemp > 28) {
+                    dom.predictionEcological.textContent = 'High Stress';
+                    dom.predictionEcologicalDesc.textContent = `Avg temp ${avgAmbientTemp.toFixed(1)}°C`;
+                    dom.predictionEcologicalDesc.className = 'metric-change negative';
+                } else if (avgAmbientTemp < 20) {
+                    dom.predictionEcological.textContent = 'Low Stress';
+                    dom.predictionEcologicalDesc.textContent = `Avg temp ${avgAmbientTemp.toFixed(1)}°C`;
+                    dom.predictionEcologicalDesc.className = 'metric-change positive';
+                } else {
+                    dom.predictionEcological.textContent = 'Optimal';
+                    dom.predictionEcologicalDesc.textContent = `Avg temp ${avgAmbientTemp.toFixed(1)}°C`;
+                    dom.predictionEcologicalDesc.className = 'metric-change positive';
+                }
+                
+                // --- 3. CALCULATE STRUCTURAL HEALTH SCORE ---
+                let healthScore = 100;
+                // a) Penalty from instability
+                const stableCount = analyticsData.orientationHistory.filter(o => o.stable).length;
+                const stabilityScore = (stableCount / analyticsData.orientationHistory.length) * 100;
+                healthScore -= (100 - stabilityScore) * 0.6; // 60% weight on stability
+
+                // b) Penalty from temperature alerts
+                const highTempEvents = analyticsData.tempHistory.filter(t => t.highTemp).length;
+                healthScore -= (highTempEvents * 5); // 5 points penalty per high temp event
+                
+                healthScore = Math.max(0, healthScore.toFixed(0));
+                dom.predictionHealthScore.textContent = `${healthScore}%`;
+
+                if (healthScore > 85) {
+                    dom.predictionHealthScoreDesc.textContent = 'Excellent Condition';
+                    dom.predictionHealthScoreDesc.className = 'metric-change positive';
+                } else if (healthScore > 60) {
+                    dom.predictionHealthScoreDesc.textContent = 'Good Condition';
+                    dom.predictionHealthScoreDesc.className = 'metric-change';
+                } else {
+                    dom.predictionHealthScoreDesc.textContent = 'Needs Inspection';
+                    dom.predictionHealthScoreDesc.className = 'metric-change negative';
+                }
+
+                // --- 4. PREDICT MAINTENANCE based on Health Score ---
+                if (healthScore < 60) {
+                    dom.predictionMaintenance.textContent = 'Within 7 Days';
+                    dom.predictionMaintenanceDesc.textContent = 'Urgent Inspection';
+                    dom.predictionMaintenanceDesc.className = 'metric-change negative';
+                } else if (healthScore < 85) {
+                    dom.predictionMaintenance.textContent = 'Within 30 Days';
+                    dom.predictionMaintenanceDesc.textContent = 'Scheduled Checkup';
+                    dom.predictionMaintenanceDesc.className = 'metric-change';
+                } else {
+                    dom.predictionMaintenance.textContent = '90+ Days';
+                    dom.predictionMaintenanceDesc.textContent = 'Nominal Performance';
+                    dom.predictionMaintenanceDesc.className = 'metric-change positive';
+                }
+            },
+            
+            setConnectionStatus(status, details = '') {
+                const statuses = {
+                    connecting: { dot: 'connecting', text: 'Connecting...', details: details || 'Initializing connection' },
+                    connected: { dot: 'connected', text: 'Live Data', details: details || 'Real-time monitoring active' },
+                    disconnected: { dot: 'disconnected', text: 'Offline', details: details || 'Connection lost' }
+                };
+                const config = statuses[status];
+                dom.statusDot.className = `status-indicator ${config.dot}`;
+                dom.statusText.textContent = config.text;
+                dom.statusDetails.textContent = config.details;
+            },
+
+            showAlert(type, message, duration = 10000) {
+                const icons = { warning: '⚠️', critical: '🚨', info: 'ℹ️', success: '✅' };
+                const alertId = `alert-${Date.now()}`;
+                const alertHTML = `<div id="${alertId}" class="alert alert-${type}"><div class="alert-header"><div class="alert-icon" style="background: var(--accent-${type === 'critical' ? 'red' : type === 'warning' ? 'amber' : type === 'success' ? 'emerald' : 'blue'});">${icons[type] || icons.info}</div><div class="alert-title">${type.charAt(0).toUpperCase() + type.slice(1)} Alert</div><button class="alert-close" onclick="this.closest('.alert').remove()">&times;</button></div><div class="alert-body">${message}</div></div>`;
+                dom.alertPanel.insertAdjacentHTML('afterbegin', alertHTML);
+                setTimeout(() => { const alert = document.getElementById(alertId); if (alert) alert.classList.add('show'); }, 100);
+                setTimeout(() => { const alert = document.getElementById(alertId); if (alert) alert.remove(); }, duration);
+            },
+
+            updateAll(data) {
+                this.updateOrientation(data);
+                this.updateTemperature(data);
+                this.updateSandLevel(data);
+                this.updateStats();
+                this.updateAnalytics();
+                const timestamp = new Date(data.created_at || Date.now());
+                addDataToChart(timestamp, data);
+            }
+        };
+
+        // --- ENHANCED CHARTING SYSTEM ---
+        function initializeChart() {
+            const ctx = dom.chartCanvas.getContext('2d');
+            Chart.register(Chart.CategoryScale, Chart.LinearScale, Chart.PointElement, Chart.LineElement, Chart.Title, Chart.Tooltip, Chart.Legend);
+            dataChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [
+                        { label: 'Internal Temperature (°C)', data: [], borderColor: '#EF4444', backgroundColor: 'rgba(239, 68, 68, 0.1)', tension: 0.4, yAxisID: 'y', pointRadius: 2, pointHoverRadius: 6, fill: true },
+                        { label: 'Ambient Temperature (°C)', data: [], borderColor: '#06B6D4', backgroundColor: 'rgba(6, 182, 212, 0.1)', tension: 0.4, yAxisID: 'y', pointRadius: 2, pointHoverRadius: 6, fill: true },
+                        { label: 'Sand Level (cm)', data: [], borderColor: '#F59E0B', backgroundColor: 'rgba(245, 158, 11, 0.1)', tension: 0.4, yAxisID: 'y1', pointRadius: 2, pointHoverRadius: 6, fill: true },
+                        { label: 'Device Stability', data: [], borderColor: '#10B981', backgroundColor: 'rgba(16, 185, 129, 0.1)', tension: 0.4, yAxisID: 'y2', pointRadius: 1, pointHoverRadius: 4, fill: false }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { mode: 'index', intersect: false, },
+                    plugins: {
+                        legend: { position: 'top', labels: { color: '#F8FAFC', font: { size: 12, weight: '600' }, padding: 20, usePointStyle: true, pointStyle: 'circle' } },
+                        tooltip: { backgroundColor: 'rgba(26, 31, 46, 0.95)', titleColor: '#F8FAFC', bodyColor: '#CBD5E1', borderColor: 'rgba(255, 255, 255, 0.2)', borderWidth: 1, cornerRadius: 8, padding: 12, displayColors: true }
+                    },
+                    scales: {
+                        x: { grid: { color: 'rgba(255, 255, 255, 0.1)', drawBorder: false }, ticks: { color: '#CBD5E1', font: { size: 11, weight: '500' }, maxRotation: 45, autoSkip: true, maxTicksLimit: 8 } },
+                        y: { position: 'left', grid: { color: 'rgba(255, 255, 255, 0.1)', drawBorder: false }, ticks: { color: '#CBD5E1', font: { size: 11, weight: '500' } }, title: { display: true, text: 'Temperature (°C)', color: '#CBD5E1', font: { size: 12, weight: '600' } } },
+                        y1: { type: 'linear', position: 'right', grid: { drawOnChartArea: false, drawBorder: false }, ticks: { color: '#F59E0B', font: { size: 11, weight: '500' } }, title: { display: true, text: 'Distance (cm)', color: '#F59E0B', font: { size: 12, weight: '600' } } },
+                        y2: { type: 'linear', position: 'right', display: false, min: 0, max: 1 }
+                    },
+                    animation: { duration: 750, easing: 'easeInOutQuart' }
+                }
+            });
+        }
+
+        function addDataToChart(timestamp, data) {
+            const timeStr = timestamp.toLocaleTimeString();
+            const accelMagnitude = Math.sqrt((data.accel_x||0)**2 + (data.accel_y||0)**2 + (data.accel_z||0)**2);
+            const stability = Math.max(0, 1 - Math.abs(accelMagnitude - 1) * 2);
+            dataChart.data.labels.push(timeStr);
+            dataChart.data.datasets[0].data.push(data.temp_internal || 0);
+            dataChart.data.datasets[1].data.push(data.temp_ambient || 0);
+            dataChart.data.datasets[2].data.push(data.distance || NORMAL_SAND_DEPTH);
+            dataChart.data.datasets[3].data.push(stability);
+            if (dataChart.data.labels.length > MAX_CHART_POINTS) {
+                dataChart.data.labels.shift();
+                dataChart.data.datasets.forEach(dataset => dataset.data.shift());
+            }
+            updateChartVisibility();
+            dataChart.update('none');
+        }
+
+        function updateChartVisibility() {
+            const datasets = dataChart.data.datasets;
+            switch(currentChartMode) {
+                case 'temperature': datasets[0].hidden = false; datasets[1].hidden = false; datasets[2].hidden = true; datasets[3].hidden = true; break;
+                case 'sand': datasets[0].hidden = true; datasets[1].hidden = true; datasets[2].hidden = false; datasets[3].hidden = true; break;
+                case 'orientation': datasets[0].hidden = true; datasets[1].hidden = true; datasets[2].hidden = true; datasets[3].hidden = false; break;
+                case 'all': default: datasets.forEach(dataset => dataset.hidden = false); break;
+            }
+        }
+
+        function initializeBackgroundEffects() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.width = particle.style.height = (Math.random() * 4 + 2) + 'px';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        async function fetchInitialData() {
+            try {
+                UI.setConnectionStatus('connecting', 'Loading historical data...');
+                const timeRange = dom.timeRange.value;
+                let hoursBack = 24;
+                switch(timeRange) {
+                    case '1h': hoursBack = 1; break;
+                    case '6h': hoursBack = 6; break;
+                    case '24h': hoursBack = 24; break;
+                    case '7d': hoursBack = 168; break;
+                }
+                const cutoffTime = new Date();
+                cutoffTime.setHours(cutoffTime.getHours() - hoursBack);
+
+                const { data, error } = await _supabase
+                    .from(TABLE_NAME)
+                    .select('*')
+                    .gte('created_at', cutoffTime.toISOString())
+                    .order('created_at', { ascending: true }) // Fetch in chronological order
+                    .limit(MAX_CHART_POINTS);
+
+                if (error) throw error;
+
+                if (data && data.length > 0) {
+                    // --- FIX IS HERE ---
+                    // This loop now pre-populates the analytics history arrays
+                    // so the prediction engine has data to work with immediately.
+                    data.forEach(reading => {
+                        // Silently populate history without updating the main UI cards yet
+                        UI.updateOrientation(reading);
+                        UI.updateTemperature(reading);
+                        UI.updateSandLevel(reading);
+                        // Add data to the chart
+                        addDataToChart(new Date(reading.created_at), reading);
+                    });
+
+                    // Now, update the main display with the very latest reading
+                    // This will also trigger the analytics to run for the first time
+                    UI.updateAll(data[data.length - 1]);
+                    
+                    UI.showAlert('success', `Loaded ${data.length} readings from ${timeRange}.`, 3000);
+                } else {
+                    UI.showAlert('info', 'No historical data found for selected time range.', 3000);
+                }
+            } catch (error) {
+                console.error('Error fetching initial data:', error);
+                UI.showAlert('warning', 'Failed to load historical data. Waiting for live updates...', 5000);
+            }
+        }
+
+        function subscribeToChanges() {
+            UI.setConnectionStatus('connecting', 'Establishing real-time connection...');
+            return _supabase
+                .channel(`realtime:${TABLE_NAME}`)
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: TABLE_NAME }, (payload) => {
+                    console.log('New sensor data received:', payload.new);
+                    UI.updateAll(payload.new);
+                    if (dom.statusDot.classList.contains('connecting')) {
+                        UI.showAlert('success', 'Real-time data connection established!', 3000);
+                    }
+                })
+                .subscribe((status) => {
+                    console.log('Subscription status:', status);
+                    switch(status) {
+                        case 'SUBSCRIBED': UI.setConnectionStatus('connected', 'Live monitoring active'); break;
+                        case 'CHANNEL_ERROR': case 'TIMED_OUT': case 'CLOSED':
+                            UI.setConnectionStatus('disconnected', 'Connection lost - attempting reconnect...');
+                            setTimeout(() => { console.log('Attempting to reconnect...'); subscribeToChanges(); }, 5000);
+                            break;
+                        default: UI.setConnectionStatus('connecting', `Connection status: ${status}`);
+                    }
+                });
+        }
+
+        function setupEventHandlers() {
+            dom.chartButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    dom.chartButtons.forEach(b => b.classList.remove('active'));
+                    button.classList.add('active');
+                    currentChartMode = button.dataset.metric;
+                    updateChartVisibility();
+                    dataChart.update();
+                    UI.showAlert('info', `Chart view changed to: ${button.textContent}`, 2000);
+                });
+            });
+            dom.timeRange.addEventListener('change', () => {
+                UI.showAlert('info', 'Reloading data for new time range...', 2000);
+                dataChart.data.labels = [];
+                dataChart.data.datasets.forEach(dataset => dataset.data = []);
+                dataChart.update();
+                fetchInitialData();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey || e.metaKey) {
+                    switch(e.key) {
+                        case '1': e.preventDefault(); dom.chartButtons[0].click(); break;
+                        case '2': e.preventDefault(); dom.chartButtons[1].click(); break;
+                        case '3': e.preventDefault(); dom.chartButtons[2].click(); break;
+                        case '4': e.preventDefault(); dom.chartButtons[3].click(); break;
+                        case 'r': e.preventDefault(); location.reload(); break;
+                    }
+                }
+            });
+        }
+
+        function setupPerformanceMonitoring() {
+            let frameCount = 0; let lastTime = performance.now();
+            function checkPerformance() {
+                frameCount++; const currentTime = performance.now();
+                if (currentTime - lastTime >= 5000) {
+                    const fps = Math.round((frameCount * 1000) / (currentTime - lastTime));
+                    if (fps < 30 && window.innerWidth > 1200) {
+                        console.warn('Performance degradation detected, optimizing...');
+                        document.querySelectorAll('.gauge-ring').forEach(ring => { ring.style.animationDuration = '60s'; });
+                    }
+                    frameCount = 0; lastTime = currentTime;
+                }
+                requestAnimationFrame(checkPerformance);
+            }
+            requestAnimationFrame(checkPerformance);
+        }
+
+        function setupOfflineSupport() {
+            let isOffline = !navigator.onLine;
+            window.addEventListener('online', () => {
+                if (isOffline) {
+                    isOffline = false;
+                    UI.setConnectionStatus('connecting', 'Back online - reconnecting...');
+                    UI.showAlert('success', 'Internet connection restored!', 3000);
+                    setTimeout(() => { subscribeToChanges(); }, 1000);
+                }
+            });
+            window.addEventListener('offline', () => {
+                isOffline = true;
+                UI.setConnectionStatus('disconnected', 'No internet connection');
+                UI.showAlert('warning', 'Internet connection lost. Data updates paused.', 5000);
+            });
+        }
+
+        function checkAuthenticationState() {
+            // Check if user came from the main website login
+            const loginType = sessionStorage.getItem('loginType');
+            const userId = sessionStorage.getItem('userId');
+            
+            if (loginType === 'scoper' && userId) {
+                // Show welcome message for authenticated users
+                setTimeout(() => {
+                    UI.showAlert('success', `Welcome to Scoper Monitor, ${userId}! Advanced marine infrastructure monitoring active.`, 6000);
+                }, 2000);
+                
+                // Update page title to show user is logged in
+                document.title = `Scoper Monitor - Welcome ${userId}`;
+                
+                // Add user info to the header
+                addUserInfoToHeader(userId);
+            }
+        }
+
+        function addUserInfoToHeader(userId) {
+            const headerControls = document.querySelector('.header-controls');
+            if (headerControls) {
+                // Check if user info is already added
+                if (!headerControls.querySelector('.user-info')) {
+                    const userInfo = document.createElement('div');
+                    userInfo.className = 'user-info';
+                    userInfo.innerHTML = `
+                        <div class="user-badge">
+                            <div class="user-avatar">🔬</div>
+                            <div class="user-details">
+                                <div class="user-name">${userId}</div>
+                                <div class="user-role">Scoper Operator</div>
+                            </div>
+                            <button class="logout-btn" onclick="logoutFromScoper()" title="Logout">
+                                <span>×</span>
+                            </button>
+                        </div>
+                    `;
+                    
+                    headerControls.insertBefore(userInfo, headerControls.firstChild);
+                    
+                    // Add CSS for user info
+                    addUserInfoStyles();
+                }
+            }
+        }
+
+        function addUserInfoStyles() {
+            // Check if styles are already added
+            if (document.getElementById('user-info-styles')) return;
+
+            const style = document.createElement('style');
+            style.id = 'user-info-styles';
+            style.textContent = `
+                .user-info {
+                    margin-right: 1rem;
+                }
+                
+                .user-badge {
+                    display: flex;
+                    align-items: center;
+                    gap: 0.75rem;
+                    background: var(--glass-medium);
+                    border: 1px solid var(--border-medium);
+                    padding: 0.75rem 1rem;
+                    border-radius: 16px;
+                    backdrop-filter: blur(20px);
+                    transition: all 0.3s ease;
+                }
+                
+                .user-badge:hover {
+                    background: var(--glass-heavy);
+                    transform: translateY(-2px);
+                    box-shadow: var(--shadow-lg);
+                }
+                
+                .user-avatar {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 50%;
+                    background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 1rem;
+                    color: white;
+                }
+                
+                .user-details {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.125rem;
+                }
+                
+                .user-name {
+                    font-size: 0.9rem;
+                    font-weight: 600;
+                    color: var(--text-primary);
+                }
+                
+                .user-role {
+                    font-size: 0.75rem;
+                    color: var(--text-secondary);
+                    font-weight: 500;
+                }
+                
+                .logout-btn {
+                    background: none;
+                    border: none;
+                    color: var(--text-secondary);
+                    cursor: pointer;
+                    padding: 0.25rem;
+                    border-radius: 50%;
+                    width: 24px;
+                    height: 24px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    transition: all 0.2s ease;
+                    font-size: 1.2rem;
+                    line-height: 1;
+                }
+                
+                .logout-btn:hover {
+                    background: rgba(239, 68, 68, 0.2);
+                    color: var(--accent-red);
+                }
+                
+                @media (max-width: 768px) {
+                    .user-badge {
+                        padding: 0.5rem 0.75rem;
+                    }
+                    
+                    .user-details {
+                        display: none;
+                    }
+                    
+                    .user-avatar {
+                        width: 28px;
+                        height: 28px;
+                        font-size: 0.9rem;
+                    }
+                }
+            `;
+            
+            document.head.appendChild(style);
+        }
+
+        function logoutFromScoper() {
+            // Clear session storage
+            sessionStorage.removeItem('loginType');
+            sessionStorage.removeItem('userId');
+            
+            // Show logout message
+            UI.showAlert('info', 'Logged out successfully', 3000);
+            
+            // Remove user info from header
+            const userInfo = document.querySelector('.user-info');
+            if (userInfo) {
+                userInfo.remove();
+            }
+            
+            // Reset page title
+            document.title = 'Marine Infrastructure Monitor - Professional';
+            
+            // Optionally redirect back to main website
+            setTimeout(() => {
+                if (confirm('Would you like to return to the main SandScope website?')) {
+                    window.location.href = '../index.html';
+                }
+            }, 2000);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            console.log('🌊 Marine Infrastructure Monitor - Professional Edition');
+            console.log('Initializing advanced monitoring system...');
+            
+            // Check for authentication state from main website
+            checkAuthenticationState();
+            
+            UI.setConnectionStatus('connecting', 'Starting system initialization...');
+            initializeBackgroundEffects();
+            initializeChart();
+            setupEventHandlers();
+            setupPerformanceMonitoring();
+            setupOfflineSupport();
+            fetchInitialData().then(() => {
+                const subscription = subscribeToChanges();
+                window.addEventListener('beforeunload', () => {
+                    console.log('Cleaning up connections...');
+                    _supabase.removeChannel(subscription);
+                });
+                setInterval(() => {
+                    if (dom.statusDot.classList.contains('connected')) {
+                        UI.setConnectionStatus('connected', `Last update: ${new Date().toLocaleTimeString()}`);
+                    }
+                }, 30000);
+            });
+            setTimeout(() => {
+                UI.showAlert('info', 'Marine Infrastructure Monitor Professional Edition initialized. Advanced analytics and real-time monitoring active.', 4000);
+            }, 1000);
+            console.log('✅ System initialization complete');
+        });
+
+        function exportData() {
+            const csvData = analyticsData.readings.map(reading => ({
+                timestamp: reading.created_at,
+                temp_internal: reading.temp_internal,
+                temp_ambient: reading.temp_ambient,
+                distance: reading.distance,
+                accel_x: reading.accel_x,
+                accel_y: reading.accel_y,
+                accel_z: reading.accel_z,
+                is_upright: reading.is_upright,
+                orientation: reading.orientation,
+                depth_status: reading.depth_status
+            }));
+            const csvString = Object.keys(csvData[0]).join(',') + '\n' + csvData.map(row => Object.values(row).join(',')).join('\n');
+            const blob = new Blob([csvString], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `marine_data_${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+            window.URL.revokeObjectURL(url);
+            UI.showAlert('success', 'Data exported successfully!', 3000);
+        }
+
+        window.MarineMonitor = {
+            exportData,
+            showAlert: UI.showAlert.bind(UI),
+            switchChart: (mode) => {
+                const button = document.querySelector(`[data-metric="${mode}"]`);
+                if (button) button.click();
+            }
+        };
+    </script>
+</body>
+</html>

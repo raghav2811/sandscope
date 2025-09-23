@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Technology - SandScope</title>
+    <meta name="description" content="Advanced technology behind SandScope sand analysis">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <a href="../index.html" class="nav-logo">
+                    <span class="logo-icon">🌊</span>
+                    <span class="logo-text">SandScope</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-links desktop-nav">
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="problem.html" class="nav-link">Problem</a>
+                    <a href="solution.html" class="nav-link">Solution</a>
+                    <a href="technology.html" class="nav-link">Technology</a>
+                    <a href="impact.html" class="nav-link">Impact</a>
+                    <a href="sdg.html" class="nav-link">SDG Alignment</a>
+                    <a href="mapping.html" class="nav-link">Mapping</a>
+                    <a href="team.html" class="nav-link">Team</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span class="hamburger-icon">☰</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-content">
+                <a href="../index.html" class="mobile-nav-link">Home</a>
+                <a href="problem.html" class="mobile-nav-link">Problem</a>
+                <a href="solution.html" class="mobile-nav-link">Solution</a>
+                <a href="technology.html" class="mobile-nav-link">Technology</a>
+                <a href="impact.html" class="mobile-nav-link">Impact</a>
+                <a href="sdg.html" class="mobile-nav-link">SDG Alignment</a>
+                <a href="mapping.html" class="mobile-nav-link">Mapping</a>
+                <a href="team.html" class="mobile-nav-link">Team</a>
+                <a href="contact.html" class="mobile-nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <div class="wave-background">
+            <svg class="wave-svg wave-slow" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+            <svg class="wave-svg wave-animation" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,80 C400,20 800,100 1200,40 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+        </div>
+
+        <div class="container page-content">
+            <div class="page-header">
+                <h1 class="page-title">Technology Stack</h1>
+                <p class="page-subtitle">
+                    Advanced hardware and software components working together to deliver precise sand grain analysis
+                </p>
+            </div>
+
+            <!-- Hardware Components -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-primary mb-8">Hardware Components</h2>
+                <div class="grid grid-cols-3 gap-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title flex items-center gap-2">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                    <circle cx="12" cy="13" r="4"/>
+                                </svg>
+                                High-Resolution Camera
+                            </h3>
+                        </div>
+                        <div class="card-content">
+                            <div style="margin-bottom: 1rem;">
+                                <div class="tech-image-placeholder camera-module">
+                                    <div class="tech-icon">📸</div>
+                                    <div class="tech-label">High-Resolution Camera</div>
+                                    <div class="tech-details">20MP • Macro Lens • LED Ring Light</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 0.875rem;">
+                                <div class="tech-spec">
+                                    <span>Resolution:</span>
+                                    <span class="font-medium">12MP</span>
+                                </div>
+                                <div class="tech-spec">
+                                    <span>Macro Focus:</span>
+                                    <span class="font-medium">2cm - ∞</span>
+                                </div>
+                                <div class="tech-spec">
+                                    <span>Magnification:</span>
+                                    <span class="font-medium">10x - 50x</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title flex items-center gap-2">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                                    <rect x="4" y="4" width="16" height="16" rx="2"/>
+                                    <rect x="9" y="9" width="6" height="6"/>
+                                    <path d="M9 1v3M15 1v3M9 20v3M15 20v3M20 9h3M20 14h3M1 9h3M1 14h3"/>
+                                </svg>
+                                ESP32 Microcontroller
+                            </h3>
+                        </div>
+                        <div class="card-content">
+                            <div style="margin-bottom: 1rem;">
+                                <div class="tech-image-placeholder esp32-module">
+                                    <div class="tech-icon">🔌</div>
+                                    <div class="tech-label">ESP32 Microcontroller</div>
+                                    <div class="tech-details">WiFi • Bluetooth • Processing Unit</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 0.875rem;">
+                                <div class="tech-spec">
+                                    <span>Processor:</span>
+                                    <span class="font-medium">Dual-core 240MHz</span>
+                                </div>
+                                <div class="tech-spec">
+                                    <span>Memory:</span>
+                                    <span class="font-medium">520KB SRAM</span>
+                                </div>
+                                <div class="tech-spec">
+                                    <span>Connectivity:</span>
+                                    <span class="font-medium">WiFi + Bluetooth</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title flex items-center gap-2">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary);">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                                GPS Module
+                            </h3>
+                        </div>
+                        <div class="card-content">
+                            <div style="margin-bottom: 1rem;">
+                                <div class="tech-image-placeholder gps-module">
+                                    <div class="tech-icon">🛰️</div>
+                                    <div class="tech-label">GPS Location Module</div>
+                                    <div class="tech-details">Precision Tracking • Coordinates • Mapping</div>
+                                </div>
+                            </div>
+                            <div style="font-size: 0.875rem;">
+                                <div class="tech-spec">
+                                    <span>Accuracy:</span>
+                                    <span class="font-medium">±3 meters</span>
+                                </div>
+                                <div class="tech-spec">
+                                    <span>Update Rate:</span>
+                                    <span class="font-medium">1-10 Hz</span>
+                                </div>
+                                <div class="tech-spec">
+                                    <span>Cold Start:</span>
+                                    <span class="font-medium">&lt;30 seconds</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Software Pipeline -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-primary mb-8">Software Pipeline</h2>
+                <div class="grid grid-cols-4 gap-6">
+                    <div class="card text-center">
+                        <div class="card-content p-6">
+                            <div class="step-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                    <circle cx="12" cy="13" r="4"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold mb-2">Image Capture</h3>
+                            <p class="text-sm text-muted-foreground">
+                                High-resolution image acquisition with optimal lighting and focus
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card text-center">
+                        <div class="card-content p-6">
+                            <div class="step-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold mb-2">Image Processing</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Advanced algorithms for grain detection and size measurement
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card text-center">
+                        <div class="card-content p-6">
+                            <div class="step-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                    <circle cx="12" cy="10" r="3"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold mb-2">Data Integration</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Combining analysis results with GPS coordinates and metadata
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card text-center">
+                        <div class="card-content p-6">
+                            <div class="step-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 20h9"/>
+                                    <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                                </svg>
+                            </div>
+                            <h3 class="font-semibold mb-2">Data Transmission</h3>
+                            <p class="text-sm text-muted-foreground">
+                                Wireless upload to cloud database for analysis and visualization
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Technical Specifications -->
+            <div class="card bg-primary-light">
+                <div class="card-header">
+                    <h2 class="card-title text-2xl text-primary text-center">System Specifications</h2>
+                </div>
+                <div class="card-content">
+                    <div class="grid grid-cols-4 gap-6 text-center">
+                        <div>
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); margin: 0 auto 0.5rem;">
+                                <rect x="1" y="3" width="15" height="13"/>
+                                <path d="M16 8h2a2 2 0 0 1 2 2v6a2 2 0 0 1-2 2h-2v4l-4-4H9a1 1 0 0 1-1-1v-1"/>
+                            </svg>
+                            <h3 class="font-semibold mb-1">Power</h3>
+                            <p class="text-sm text-muted-foreground">8+ hours operation</p>
+                            <p class="text-sm text-muted-foreground">Rechargeable Li-ion</p>
+                        </div>
+                        <div>
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); margin: 0 auto 0.5rem;">
+                                <path d="M12 20h9"/>
+                                <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+                            </svg>
+                            <h3 class="font-semibold mb-1">Connectivity</h3>
+                            <p class="text-sm text-muted-foreground">WiFi 802.11 b/g/n</p>
+                            <p class="text-sm text-muted-foreground">Bluetooth 4.2</p>
+                        </div>
+                        <div>
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); margin: 0 auto 0.5rem;">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                            <h3 class="font-semibold mb-1">Performance</h3>
+                            <p class="text-sm text-muted-foreground">&lt;30s analysis</p>
+                            <p class="text-sm text-muted-foreground">±0.05mm accuracy</p>
+                        </div>
+                        <div>
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="color: var(--primary); margin: 0 auto 0.5rem;">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                            <h3 class="font-semibold mb-1">Range</h3>
+                            <p class="text-sm text-muted-foreground">0.1 - 2.0mm grains</p>
+                            <p class="text-sm text-muted-foreground">±3m GPS accuracy</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/script.js"></script>
+</body>
+</html>

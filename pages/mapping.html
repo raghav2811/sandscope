@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapping - SandScope</title>
+    <meta name="description" content="Interactive sand analysis mapping and visualization">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <a href="../index.html" class="nav-logo">
+                    <span class="logo-icon">🌊</span>
+                    <span class="logo-text">SandScope</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-links desktop-nav">
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="problem.html" class="nav-link">Problem</a>
+                    <a href="solution.html" class="nav-link">Solution</a>
+                    <a href="technology.html" class="nav-link">Technology</a>
+                    <a href="impact.html" class="nav-link">Impact</a>
+                    <a href="sdg.html" class="nav-link">SDG Alignment</a>
+                    <a href="mapping.html" class="nav-link">Mapping</a>
+                    <a href="team.html" class="nav-link">Team</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span class="hamburger-icon">☰</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-content">
+                <a href="../index.html" class="mobile-nav-link">Home</a>
+                <a href="problem.html" class="mobile-nav-link">Problem</a>
+                <a href="solution.html" class="mobile-nav-link">Solution</a>
+                <a href="technology.html" class="mobile-nav-link">Technology</a>
+                <a href="impact.html" class="mobile-nav-link">Impact</a>
+                <a href="sdg.html" class="mobile-nav-link">SDG Alignment</a>
+                <a href="mapping.html" class="mobile-nav-link">Mapping</a>
+                <a href="team.html" class="mobile-nav-link">Team</a>
+                <a href="contact.html" class="mobile-nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <div class="wave-background">
+            <svg class="wave-svg wave-slow" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+            <svg class="wave-svg wave-animation" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,80 C400,20 800,100 1200,40 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+        </div>
+
+        <div class="container page-content">
+            <div class="page-header">
+                <h1 class="page-title">Global Sand Analysis Mapping</h1>
+                <p class="page-subtitle">
+                    Explore sand grain analysis data, turtle nesting sites, and conservation efforts worldwide through our interactive mapping platform
+                </p>
+            </div>
+
+            <!-- Map Controls -->
+            <div class="card mb-8">
+                <div class="card-content p-6">
+                    <div class="flex items-center justify-between flex-wrap gap-4">
+                        <div class="flex items-center gap-4">
+                            <h3 class="font-semibold">Map Layers</h3>
+                            <div class="flex gap-2">
+                                <button class="map-layer-btn active" data-layer="sites">
+                                    <span class="layer-icon">📍</span>
+                                    Research Sites
+                                </button>
+                                <button class="map-layer-btn" data-layer="turtles">
+                                    <span class="layer-icon">🐢</span>
+                                    Nesting Areas
+                                </button>
+                                <button class="map-layer-btn" data-layer="partners">
+                                    <span class="layer-icon">🤝</span>
+                                    Partners
+                                </button>
+                                <button class="map-layer-btn" data-layer="hotspots">
+                                    <span class="layer-icon">🔥</span>
+                                    Conservation Hotspots
+                                </button>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4">
+                            <select class="form-input" style="width: auto;">
+                                <option>All Regions</option>
+                                <option>Caribbean</option>
+                                <option>Pacific</option>
+                                <option>Indian Ocean</option>
+                                <option>Mediterranean</option>
+                                <option>Atlantic</option>
+                            </select>
+                            <button class="btn btn-outline">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <path d="m21 21-4.35-4.35"></path>
+                                </svg>
+                                Filter
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Interactive Map Placeholder -->
+            <div class="card mb-16">
+                <div class="card-content p-0">
+                    <div class="map-container">
+                        <div class="map-placeholder">
+                            <div class="map-background">
+                                <div class="world-map">
+                                    <div class="map-marker active" style="top: 60%; left: 25%;" data-site="florida">
+                                        <div class="marker-dot research-site"></div>
+                                        <div class="marker-tooltip">Florida Keys Research Station</div>
+                                    </div>
+                                    <div class="map-marker" style="top: 45%; left: 20%;" data-site="california">
+                                        <div class="marker-dot turtle-site"></div>
+                                        <div class="marker-tooltip">California Turtle Conservation</div>
+                                    </div>
+                                    <div class="map-marker" style="top: 75%; left: 35%;" data-site="brazil">
+                                        <div class="marker-dot partner-site"></div>
+                                        <div class="marker-tooltip">Brazil Marine Research Center</div>
+                                    </div>
+                                    <div class="map-marker" style="top: 70%; left: 55%;" data-site="south-africa">
+                                        <div class="marker-dot hotspot-site"></div>
+                                        <div class="marker-tooltip">South African Conservation Hotspot</div>
+                                    </div>
+                                    <div class="map-marker" style="top: 55%; left: 75%;" data-site="japan">
+                                        <div class="marker-dot research-site"></div>
+                                        <div class="marker-tooltip">Japanese Coastal Research</div>
+                                    </div>
+                                    <div class="map-marker" style="top: 85%; left: 80%;" data-site="australia">
+                                        <div class="marker-dot turtle-site"></div>
+                                        <div class="marker-tooltip">Great Barrier Reef Project</div>
+                                    </div>
+                                </div>
+                                <div class="map-overlay-text">
+                                    Interactive world map showing global SandScope deployment and research activities
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Site Statistics -->
+            <div class="grid grid-cols-4 gap-6 mb-16">
+                <div class="card text-center">
+                    <div class="card-content p-6">
+                        <div class="stat-icon research-stat">🔬</div>
+                        <div class="global-metric">45</div>
+                        <div class="font-semibold mb-2">Active Research Sites</div>
+                        <div class="metric-description">Locations conducting regular sand analysis</div>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-content p-6">
+                        <div class="stat-icon turtle-stat">🐢</div>
+                        <div class="global-metric">28</div>
+                        <div class="font-semibold mb-2">Turtle Nesting Areas</div>
+                        <div class="metric-description">Protected nesting sites being monitored</div>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-content p-6">
+                        <div class="stat-icon partner-stat">🤝</div>
+                        <div class="global-metric">15</div>
+                        <div class="font-semibold mb-2">Partner Organizations</div>
+                        <div class="metric-description">Collaborating institutions worldwide</div>
+                    </div>
+                </div>
+                <div class="card text-center">
+                    <div class="card-content p-6">
+                        <div class="stat-icon hotspot-stat">🔥</div>
+                        <div class="global-metric">8</div>
+                        <div class="font-semibold mb-2">Conservation Hotspots</div>
+                        <div class="metric-description">Critical areas requiring immediate attention</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Call to Action -->
+            <div class="card text-center">
+                <div class="card-content p-8">
+                    <h2 class="text-2xl font-bold text-primary mb-4">Join Our Global Network</h2>
+                    <p class="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                        Help expand our mapping coverage by deploying SandScope technology at your research location. Contact us to become part of the global turtle conservation network.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <a href="login.html" class="btn btn-primary">Start Data Collection</a>
+                        <a href="contact.html" class="btn btn-outline">Partner With Us</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/script.js"></script>
+    <script>
+        // Map layer toggle functionality
+        document.querySelectorAll('.map-layer-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.map-layer-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                
+                const layer = this.dataset.layer;
+                document.querySelectorAll('.map-marker').forEach(marker => {
+                    marker.style.display = 'none';
+                });
+                
+                const layerClassMap = {
+                    'sites': 'research-site',
+                    'turtles': 'turtle-site', 
+                    'partners': 'partner-site',
+                    'hotspots': 'hotspot-site'
+                };
+                
+                if (layer === 'sites') {
+                    document.querySelectorAll('.map-marker').forEach(marker => {
+                        marker.style.display = 'block';
+                    });
+                } else {
+                    document.querySelectorAll(`.marker-dot.${layerClassMap[layer]}`).forEach(dot => {
+                        dot.closest('.map-marker').style.display = 'block';
+                    });
+                }
+            });
+        });
+
+        // Marker hover effects
+        document.querySelectorAll('.map-marker').forEach(marker => {
+            marker.addEventListener('mouseenter', function() {
+                this.querySelector('.marker-tooltip').style.opacity = '1';
+                this.querySelector('.marker-tooltip').style.transform = 'translateY(-10px)';
+            });
+            
+            marker.addEventListener('mouseleave', function() {
+                this.querySelector('.marker-tooltip').style.opacity = '0';
+                this.querySelector('.marker-tooltip').style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>

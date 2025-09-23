@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact - SandScope</title>
+    <meta name="description" content="Get in touch with the SandScope team">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/styles.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-content">
+                <!-- Logo -->
+                <a href="../index.html" class="nav-logo">
+                    <span class="logo-icon">🌊</span>
+                    <span class="logo-text">SandScope</span>
+                </a>
+
+                <!-- Desktop Navigation -->
+                <div class="nav-links desktop-nav">
+                    <a href="../index.html" class="nav-link">Home</a>
+                    <a href="problem.html" class="nav-link">Problem</a>
+                    <a href="solution.html" class="nav-link">Solution</a>
+                    <a href="technology.html" class="nav-link">Technology</a>
+                    <a href="impact.html" class="nav-link">Impact</a>
+                    <a href="sdg.html" class="nav-link">SDG Alignment</a>
+                    <a href="mapping.html" class="nav-link">Mapping</a>
+                    <a href="team.html" class="nav-link">Team</a>
+                    <a href="contact.html" class="nav-link">Contact</a>
+                </div>
+
+                <!-- Mobile Menu Toggle -->
+                <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                    <span class="hamburger-icon">☰</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div class="mobile-nav" id="mobileNav">
+            <div class="mobile-nav-content">
+                <a href="../index.html" class="mobile-nav-link">Home</a>
+                <a href="problem.html" class="mobile-nav-link">Problem</a>
+                <a href="solution.html" class="mobile-nav-link">Solution</a>
+                <a href="technology.html" class="mobile-nav-link">Technology</a>
+                <a href="impact.html" class="mobile-nav-link">Impact</a>
+                <a href="sdg.html" class="mobile-nav-link">SDG Alignment</a>
+                <a href="mapping.html" class="mobile-nav-link">Mapping</a>
+                <a href="team.html" class="mobile-nav-link">Team</a>
+                <a href="contact.html" class="mobile-nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="page-container">
+        <div class="wave-background">
+            <svg class="wave-svg wave-slow" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,60 C300,120 600,0 900,60 C1050,90 1150,30 1200,60 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+            <svg class="wave-svg wave-animation" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,80 C400,20 800,100 1200,40 L1200,120 L0,120 Z" fill="currentColor"/>
+            </svg>
+        </div>
+
+        <div class="container page-content">
+            <div class="page-header">
+                <h1 class="page-title">Contact Us</h1>
+                <p class="page-subtitle">
+                    Connect with Team Verstappenators to explore partnerships, get technical support, or learn more about our sand grain analysis technology
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-12 mb-16">
+                <!-- Contact Form -->
+                <div class="card">
+                    <div class="card-header">
+                        <h2 class="card-title text-2xl">Send us a Message</h2>
+                        <p class="text-muted-foreground">We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+                    </div>
+                    <div class="card-content">
+                        <form id="contact-form" class="space-y-6" onsubmit="handleContactSubmit(event)">
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="form-group">
+                                    <label class="form-label" for="first-name">First Name</label>
+                                    <input type="text" id="first-name" name="firstName" class="form-input" placeholder="Your first name" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="last-name">Last Name</label>
+                                    <input type="text" id="last-name" name="lastName" class="form-input" placeholder="Your last name" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="email">Email Address</label>
+                                <input type="email" id="email" name="email" class="form-input" placeholder="your.email@example.com" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="organization">Organization (Optional)</label>
+                                <input type="text" id="organization" name="organization" class="form-input" placeholder="Your organization or institution">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="inquiry-type">Type of Inquiry</label>
+                                <select id="inquiry-type" name="inquiryType" class="form-input" required>
+                                    <option value="">Select inquiry type</option>
+                                    <option value="research-collaboration">Research Collaboration</option>
+                                    <option value="technical-support">Technical Support</option>
+                                    <option value="partnership">Partnership Opportunity</option>
+                                    <option value="education">Educational Program</option>
+                                    <option value="press-media">Press & Media</option>
+                                    <option value="general">General Question</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" for="message">Message</label>
+                                <textarea id="message" name="message" rows="5" class="form-input" placeholder="Tell us about your project, question, or how we can help..." required></textarea>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-full">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                                    <path d="m22 2-7 20-4-9-9-4Z"></path>
+                                    <path d="M22 2 11 13"></path>
+                                </svg>
+                                Send Message
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Contact Information -->
+                <div class="space-y-8">
+                    <!-- Team Contact -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title flex items-center gap-2">
+                                <div class="contact-icon team-contact">👥</div>
+                                Team Verstappenators
+                            </h3>
+                        </div>
+                        <div class="card-content space-y-4">
+                            <div class="contact-detail">
+                                <div class="contact-label">Team Lead</div>
+                                <div class="contact-value">Balaji S</div>
+                                <div class="contact-description">Project coordination and research design</div>
+                            </div>
+                            <div class="contact-detail">
+                                <div class="contact-label">Primary Contact</div>
+                                <div class="contact-value">Contact form available below</div>
+                                <div class="contact-description">General inquiries and partnerships</div>
+                            </div>
+                            <div class="contact-detail">
+                                <div class="contact-label">Technical Support</div>
+                                <div class="contact-value">Available through contact form</div>
+                                <div class="contact-description">Technical assistance and documentation</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Research Collaboration -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title flex items-center gap-2">
+                                <div class="contact-icon research-contact">🔬</div>
+                                Research Partnerships
+                            </h3>
+                        </div>
+                        <div class="card-content space-y-4">
+                            <div class="contact-detail">
+                                <div class="contact-label">Mentor</div>
+                                <div class="contact-value">Mr. Silambarasan</div>
+                                <div class="contact-description">Research guidance and academic partnerships</div>
+                            </div>
+                            <div class="contact-detail">
+                                <div class="contact-label">Mentor</div>
+                                <div class="contact-value">Mr. Balaji</div>
+                                <div class="contact-description">Technical mentorship and development</div>
+                            </div>
+                            <div class="contact-detail">
+                                <div class="contact-label">Research Collaboration</div>
+                                <div class="contact-value">Partnership inquiries welcome</div>
+                                <div class="contact-description">Academic collaborations and publications</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Social Media & Links -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title flex items-center gap-2">
+                                <div class="contact-icon social-contact">🌐</div>
+                                Connect Online
+                            </h3>
+                        </div>
+                        <div class="card-content">
+                            <div class="social-links">
+                                <a href="#" class="social-link">
+                                    <div class="social-icon github-icon">📁</div>
+                                    <span>GitHub Repository</span>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <div class="social-icon linkedin-icon">💼</div>
+                                    <span>LinkedIn</span>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <div class="social-icon twitter-icon">🐦</div>
+                                    <span>Twitter</span>
+                                </a>
+                                <a href="#" class="social-link">
+                                    <div class="social-icon research-icon">📄</div>
+                                    <span>Research Papers</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="mb-16">
+                <h2 class="text-3xl font-bold text-center text-primary mb-8">Frequently Asked Questions</h2>
+                <div class="grid grid-cols-2 gap-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">How can I access the SandScope technology?</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-muted-foreground">
+                                Our technology is open-source and freely available. You can access the hardware designs, software code, and documentation through our GitHub repository. For support with implementation, contact our technical team.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Can you help train our research team?</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-muted-foreground">
+                                Yes! We offer training programs for research teams, educational institutions, and conservation organizations. Contact us to discuss custom training options for your specific needs and location.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">What partnerships are you looking for?</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-muted-foreground">
+                                We're interested in research collaborations, conservation partnerships, educational programs, and technology integration opportunities. We particularly welcome partnerships that can help scale our impact globally.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">How do I report technical issues?</h3>
+                        </div>
+                        <div class="card-content">
+                            <p class="text-muted-foreground">
+                                For technical support, please use the contact form above with detailed information about your issue, including device specifications, error messages, and steps to reproduce the problem.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Information -->
+            <div class="card bg-primary-light">
+                <div class="card-header">
+                    <h2 class="card-title text-2xl text-primary text-center">Research & Development</h2>
+                </div>
+                <div class="card-content text-center">
+                    <p class="text-muted-foreground mb-6 max-w-2xl mx-auto">
+                        Our team is actively developing and testing SandScope technology in coastal environments. We collaborate with research institutions and conservation organizations worldwide to advance marine science and turtle conservation.
+                    </p>
+                    <div class="grid grid-cols-3 gap-8">
+                        <div>
+                            <div class="location-icon">🏫</div>
+                            <h3 class="font-semibold mb-2">Academic Institution</h3>
+                            <p class="text-sm text-muted-foreground">University research and development hub</p>
+                        </div>
+                        <div>
+                            <div class="location-icon">🌊</div>
+                            <h3 class="font-semibold mb-2">Field Testing</h3>
+                            <p class="text-sm text-muted-foreground">Active beach monitoring and validation</p>
+                        </div>
+                        <div>
+                            <div class="location-icon">🌍</div>
+                            <h3 class="font-semibold mb-2">Global Network</h3>
+                            <p class="text-sm text-muted-foreground">International collaboration platform</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script src="../assets/js/script.js"></script>
+    <script>
+        function handleContactSubmit(event) {
+            event.preventDefault();
+            
+            const form = event.target;
+            const formData = new FormData(form);
+            
+            // Simulate form submission
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Sending...';
+            
+            setTimeout(() => {
+                showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
+                form.reset();
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Send Message';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

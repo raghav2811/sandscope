@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Upload to Supabase</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-cloud-upload-alt"></i> SAND SCOPE</h1>
+            <p>A fast and efficient way to analyze sand grains!!</p>
+            <nav class="sandscore-nav">
+                <a href="../index.html" class="nav-link-back">
+                    <i class="fas fa-arrow-left"></i> Back to Main Site
+                </a>
+            </nav>
+        </header>
+
+        <main>
+            <!-- Upload Section -->
+            <section class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-content">
+                        <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                        <h3>Drop your images here</h3>
+                        <div class="upload-info">
+                            <small>Supported formats: JPG, PNG, GIF, WebP</small>
+                        </div>
+                    </div>
+                    <div class="drag-overlay" id="dragOverlay">
+                        <i class="fas fa-download"></i>
+                        <p>Drop files to upload</p>
+                    </div>
+                </div>
+
+                <!-- Upload Buttons Below Drag Area -->
+                <div class="upload-buttons-section">
+                    <div class="upload-buttons">
+                        <button class="upload-btn" id="uploadBtn" type="button">
+                            <i class="fas fa-plus"></i> Choose Files
+                        </button>
+                        <button class="upload-btn camera-btn" id="cameraBtn" type="button">
+                            <i class="fas fa-camera"></i> Take Photo
+                        </button>
+                        <button class="upload-btn analysis-btn" onclick="window.location.href='simple_dashboard.html'" type="button">
+                            <i class="fas fa-chart-bar"></i> Analysis Dashboard
+                        </button>
+                    </div>
+                    
+                    <!-- Location Status -->
+                    <div class="location-status" id="locationStatus">
+                        <div class="location-info">
+                            <i class="fas fa-map-marker-alt" id="locationIcon"></i>
+                            <span id="locationText">Getting location...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <input type="file" id="fileInput" multiple accept="image/*" style="display: none;">
+
+                <!-- Camera Modal -->
+                <div class="camera-modal" id="cameraModal" style="display: none;">
+                    <div class="camera-content">
+                        <div class="camera-header">
+                            <h3><i class="fas fa-camera"></i> Take a Photo</h3>
+                            <button class="close-camera" id="closeCameraBtn">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                        <div class="camera-container">
+                            <video id="cameraVideo" autoplay playsinline></video>
+                            <canvas id="cameraCanvas" style="display: none;"></canvas>
+                            <div class="camera-preview" id="cameraPreview" style="display: none;">
+                                <img id="capturedImage" alt="Captured photo">
+                            </div>
+                        </div>
+                        <div class="camera-controls">
+                            <div class="camera-buttons" id="cameraButtons">
+                                <button class="btn btn-secondary" id="retakeBtn" style="display: none;">
+                                    <i class="fas fa-redo"></i> Retake
+                                </button>
+                                <button class="btn btn-primary" id="captureBtn">
+                                    <i class="fas fa-camera"></i> Capture
+                                </button>
+                                <button class="btn btn-success" id="usePhotoBtn" style="display: none;">
+                                    <i class="fas fa-check"></i> Use Photo
+                                </button>
+                            </div>
+                            <div class="camera-error" id="cameraError" style="display: none;">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                <span id="cameraErrorText">Camera access denied or not available</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selected Files Preview -->
+                <div class="selected-files" id="selectedFiles"></div>
+
+                <!-- Upload Controls -->
+                <div class="upload-controls" id="uploadControls" style="display: none;">
+                    <button class="btn btn-primary" id="startUpload">
+                        <i class="fas fa-upload"></i> Upload Images
+                    </button>
+                    <button class="btn btn-secondary" id="cancelUpload">
+                        <i class="fas fa-times"></i> Cancel
+                    </button>
+                </div>
+
+                <!-- Upload Progress -->
+                <div class="upload-progress" id="uploadProgress" style="display: none;">
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <div class="progress-text" id="progressText">Uploading... 0%</div>
+                    <button class="btn btn-danger btn-small" id="cancelActiveUpload">
+                        <i class="fas fa-stop"></i> Cancel Upload
+                    </button>
+                </div>
+            </section>
+
+            <!-- Upload History Section -->
+            <section class="history-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-history"></i> Upload History</h2>
+                    <button class="btn btn-secondary btn-small" id="refreshHistory">
+                        <i class="fas fa-sync-alt"></i> Refresh
+                    </button>
+                </div>
+                
+                <div class="history-content" id="historyContent">
+                    <div class="loading" id="historyLoading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading history...
+                    </div>
+                    <div class="history-grid" id="historyGrid"></div>
+                    <div class="empty-state" id="emptyState" style="display: none;">
+                        <i class="fas fa-images"></i>
+                        <h3>No uploads yet</h3>
+                        <p>Start by uploading your first image!</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Toast Notifications -->
+        <div class="toast-container" id="toastContainer"></div>
+
+        <!-- Loading Overlay -->
+        <div class="loading-overlay" id="loadingOverlay" style="display: none;">
+            <div class="loading-spinner">
+                <i class="fas fa-spinner fa-spin"></i>
+                <p>Processing...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="geolocation.js"></script>
+    <script src="location-ui.js"></script>
+    <script src="supabase.js"></script>
+    <script src="upload.js"></script>
+    <script src="camera.js"></script>
+    <script src="history.js"></script>
+    <script src="analysis-manager.js"></script>
+    <script src="app.js"></script>
+    
+    <script>
+        // Debug function to test buttons manually
+        function testUploadButton() {
+            console.log('🧪 Testing upload button manually');
+            const fileInput = document.getElementById('fileInput');
+            if (fileInput) {
+                fileInput.click();
+                console.log('✅ File input triggered manually');
+            } else {
+                console.error('❌ File input not found');
+            }
+        }
+        
+        function testCameraButton() {
+            console.log('🧪 Testing camera button manually');
+            if (window.cameraManager && window.cameraManager.openCamera) {
+                window.cameraManager.openCamera();
+                console.log('✅ Camera opened manually');
+            } else {
+                console.error('❌ Camera manager not available');
+            }
+        }
+        
+        // Make test functions available globally for debugging
+        window.testUploadButton = testUploadButton;
+        window.testCameraButton = testCameraButton;
+        
+        // Log when page is fully loaded
+        window.addEventListener('load', () => {
+            console.log('🏁 Page fully loaded');
+            console.log('Upload manager available:', !!window.uploadManager);
+            console.log('Camera manager available:', !!window.cameraManager);
+            console.log('File input exists:', !!document.getElementById('fileInput'));
+            console.log('Upload button exists:', !!document.getElementById('uploadBtn'));
+            console.log('Camera button exists:', !!document.getElementById('cameraBtn'));
+        });
+    </script>
+</body>
+</html>
