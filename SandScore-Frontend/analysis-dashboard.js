@@ -105,8 +105,17 @@ class AnalysisDashboard {
                 return;
             }
             
+            // Test API connectivity first
+            console.log('Testing API connectivity...');
+            const isApiReachable = await this.testApiConnectivity();
+            console.log('API reachable:', isApiReachable);
+            
             this.analyses = await this.analysisManager.getAllAnalyses();
             console.log(`Loaded ${this.analyses.length} analyses:`, this.analyses);
+            
+            // Always try to render something, even if empty
+            this.applyFilters();
+            this.updateStatistics();
             
             if (this.analyses.length === 0) {
                 console.log('No analyses found');
@@ -114,16 +123,38 @@ class AnalysisDashboard {
                 return;
             }
             
-            this.applyFilters();
-            this.updateStatistics();
             this.renderAnalyses();
         } catch (error) {
             console.error('Failed to load analysis data:', error);
             // Show more user-friendly error message
             const errorMessage = error.message.includes('timeout') 
-                ? 'Connection timeout. Please check your internet connection and try again.'
-                : `Failed to load analysis data: ${error.message}`;
+                ? 'Connection timeout. The database might be slow. Please try again.'
+                : error.message.includes('network') || error.message.includes('fetch')
+                ? 'Network connection issue. Please check your internet and try again.'
+                : `Unable to load data: ${error.message}`;
             this.showError(errorMessage);
+        }
+    }
+
+    async testApiConnectivity() {
+        try {
+            const apiUrl = window.location.hostname.includes('localhost') 
+                ? 'http://localhost:8001'
+                : 'https://sandscope-sandscore-api.onrender.com';
+            
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+            
+            const response = await fetch(`${apiUrl}/`, {
+                method: 'GET',
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
+            return response.ok;
+        } catch (error) {
+            console.error('API connectivity test failed:', error);
+            return false;
         }
     }
 

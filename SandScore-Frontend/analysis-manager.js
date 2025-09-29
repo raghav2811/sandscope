@@ -128,6 +128,20 @@ class AnalysisManager {
      */
     async getAllAnalyses() {
         try {
+            console.log('Fetching analyses from API first (faster)...');
+            
+            // Try API first as it might be faster and more reliable
+            try {
+                const apiData = await this.getAllAnalysesFromAPI();
+                if (apiData && apiData.length > 0) {
+                    console.log('Successfully fetched analyses from API:', apiData);
+                    return apiData;
+                }
+            } catch (apiError) {
+                console.log('API failed, trying Supabase:', apiError.message);
+            }
+            
+            // Fallback to Supabase with timeout
             console.log('Fetching analyses from Supabase...');
             
             // Add timeout to the Supabase query
@@ -146,21 +160,19 @@ class AnalysisManager {
                 `)
                 .order('created_at', { ascending: false });
 
-            // Wrap the query with a timeout
-            const { data, error } = await this.queryWithTimeout(supabaseQuery, 10000); // 10 second timeout
+            // Wrap the query with a shorter timeout
+            const { data, error } = await this.queryWithTimeout(supabaseQuery, 5000); // 5 second timeout
 
             if (error) {
                 console.error('Supabase error:', error);
-                // Fallback to direct API call
-                return await this.getAllAnalysesFromAPI();
+                return []; // Return empty array instead of failing
             }
             
             console.log('Successfully fetched analyses from Supabase:', data);
             return data || [];
         } catch (error) {
-            console.error('Failed to get all analyses from Supabase:', error);
-            // Fallback to direct API call
-            return await this.getAllAnalysesFromAPI();
+            console.error('Failed to get all analyses:', error);
+            return []; // Return empty array instead of throwing error
         }
     }
 
@@ -185,7 +197,7 @@ class AnalysisManager {
             
             // Add timeout to fetch request
             const controller = new AbortController();
-            const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+            const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
             
             const response = await fetch(`${this.analysisServiceUrl}/analyses`, {
                 method: 'GET',
@@ -203,20 +215,24 @@ class AnalysisManager {
             
             const result = await response.json();
             
-            if (result.success) {
-                console.log('Successfully fetched analyses from API:', result.data);
+            // Handle both response formats
+            if (result.success && result.data) {
+                console.log('Successfully fetched analyses from API (format 1):', result.data);
                 return result.data || [];
+            } else if (result.analyses) {
+                console.log('Successfully fetched analyses from API (format 2):', result.analyses);
+                return result.analyses || [];
             } else {
-                console.error('API error:', result.error);
+                console.error('API error or unexpected format:', result);
                 return [];
             }
         } catch (error) {
             if (error.name === 'AbortError') {
                 console.error('API request timed out');
-                throw new Error('Request timed out. Please check your connection and try again.');
+                return []; // Return empty instead of throwing
             }
             console.error('Failed to get analyses from API:', error);
-            throw error;
+            return []; // Return empty instead of throwing
         }
     }
 
