@@ -129,7 +129,9 @@ class AnalysisManager {
     async getAllAnalyses() {
         try {
             console.log('Fetching analyses from Supabase...');
-            const { data, error } = await this.supabase
+            
+            // Add timeout to the Supabase query
+            const supabaseQuery = this.supabase
                 .from('grain_analysis')
                 .select(`
                     *,
@@ -143,6 +145,9 @@ class AnalysisManager {
                     )
                 `)
                 .order('created_at', { ascending: false });
+
+            // Wrap the query with a timeout
+            const { data, error } = await this.queryWithTimeout(supabaseQuery, 10000); // 10 second timeout
 
             if (error) {
                 console.error('Supabase error:', error);
@@ -160,12 +165,42 @@ class AnalysisManager {
     }
 
     /**
+     * Add timeout wrapper for Supabase queries
+     */
+    async queryWithTimeout(queryPromise, timeoutMs = 10000) {
+        return Promise.race([
+            queryPromise,
+            new Promise((_, reject) => 
+                setTimeout(() => reject(new Error('Query timeout')), timeoutMs)
+            )
+        ]);
+    }
+
+    /**
      * Fallback method to get analyses directly from the API
      */
     async getAllAnalysesFromAPI() {
         try {
             console.log('Fetching analyses from API...');
-            const response = await fetch(`${this.analysisServiceUrl}/analyses`);
+            
+            // Add timeout to fetch request
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 15000); // 15 second timeout
+            
+            const response = await fetch(`${this.analysisServiceUrl}/analyses`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                signal: controller.signal
+            });
+            
+            clearTimeout(timeoutId);
+            
+            if (!response.ok) {
+                throw new Error(`API responded with status: ${response.status}`);
+            }
+            
             const result = await response.json();
             
             if (result.success) {
@@ -176,8 +211,12 @@ class AnalysisManager {
                 return [];
             }
         } catch (error) {
+            if (error.name === 'AbortError') {
+                console.error('API request timed out');
+                throw new Error('Request timed out. Please check your connection and try again.');
+            }
             console.error('Failed to get analyses from API:', error);
-            return [];
+            throw error;
         }
     }
 

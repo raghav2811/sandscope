@@ -95,6 +95,9 @@ class AnalysisDashboard {
         try {
             console.log('Loading analysis data...');
             
+            // Show loading state
+            this.showLoadingState();
+            
             // Check if analysisManager is initialized
             if (!this.analysisManager) {
                 console.error('AnalysisManager not initialized');
@@ -116,7 +119,24 @@ class AnalysisDashboard {
             this.renderAnalyses();
         } catch (error) {
             console.error('Failed to load analysis data:', error);
-            this.showError(`Failed to load analysis data: ${error.message}`);
+            // Show more user-friendly error message
+            const errorMessage = error.message.includes('timeout') 
+                ? 'Connection timeout. Please check your internet connection and try again.'
+                : `Failed to load analysis data: ${error.message}`;
+            this.showError(errorMessage);
+        }
+    }
+
+    showLoadingState() {
+        const container = document.getElementById('analysisList');
+        if (container) {
+            container.innerHTML = `
+                <div class="loading-state">
+                    <div class="spinner"></div>
+                    <h3>Loading Analyses...</h3>
+                    <p>Fetching your analysis data...</p>
+                </div>
+            `;
         }
     }
 
@@ -818,12 +838,18 @@ class AnalysisDashboard {
         container.innerHTML = `
             <div class="no-analyses">
                 <i class="fas fa-exclamation-triangle"></i>
-                <h3>Error</h3>
+                <h3>Error Loading Data</h3>
                 <p>${message}</p>
-                <button onclick="window.analysisDashboard.refreshData()" class="refresh-btn">
-                    <i class="fas fa-sync-alt"></i>
-                    Retry
-                </button>
+                <div style="margin-top: 20px;">
+                    <button onclick="window.analysisDashboard.refreshData()" class="refresh-btn" style="margin-right: 10px;">
+                        <i class="fas fa-sync-alt"></i>
+                        Retry
+                    </button>
+                    <button onclick="window.location.reload()" class="nav-btn">
+                        <i class="fas fa-refresh"></i>
+                        Refresh Page
+                    </button>
+                </div>
             </div>
         `;
     }
