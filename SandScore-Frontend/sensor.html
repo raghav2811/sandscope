@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Automated Sensor Readings - Image Upload System</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .sensor-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .sensor-header {
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .sensor-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.5rem;
+        }
+
+        .sensor-header p {
+            margin: 0;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .sensor-controls {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .control-section {
+            margin-bottom: 25px;
+        }
+
+        .control-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sensor-status {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #f8f9fa;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #dc3545;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.active {
+            background: #28a745;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .sensor-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sensor-btn.primary {
+            background: #007bff;
+            color: white;
+        }
+
+        .sensor-btn.success {
+            background: #28a745;
+            color: white;
+        }
+
+        .sensor-btn.danger {
+            background: #dc3545;
+            color: white;
+        }
+
+        .sensor-btn.secondary {
+            background: #6c757d;
+            color: white;
+        }
+
+        .sensor-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+
+        .sensor-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .sensor-info {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .info-card {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .info-card h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #007bff;
+        }
+
+        .recent-captures {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            padding: 30px;
+        }
+
+        .capture-log {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 20px;
+        }
+
+        .capture-entry {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            transition: background 0.3s ease;
+        }
+
+        .capture-entry:hover {
+            background: #f8f9fa;
+        }
+
+        .capture-thumbnail {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+
+        .capture-details {
+            flex: 1;
+        }
+
+        .capture-time {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .capture-location {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .nav-back {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 1000;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .sensor-container {
+                padding: 10px;
+            }
+
+            .sensor-header h1 {
+                font-size: 2rem;
+            }
+
+            .control-buttons {
+                flex-direction: column;
+            }
+
+            .sensor-btn {
+                justify-content: center;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-back">
+        <button class="sensor-btn secondary" onclick="window.location.href='index.html'">
+            <i class="fas fa-arrow-left"></i>
+            Back to Upload
+        </button>
+    </div>
+
+    <div class="sensor-container">
+        <!-- Header -->
+        <div class="sensor-header">
+            <h1><i class="fas fa-camera"></i> Automated Sensor Readings</h1>
+            <p>Automated hourly image capture with location and device data</p>
+        </div>
+
+        <!-- Sensor Controls -->
+        <div class="sensor-controls">
+            <div class="control-section">
+                <h3><i class="fas fa-cog"></i> System Controls</h3>
+                
+                <div class="sensor-status">
+                    <div class="status-indicator" id="statusIndicator"></div>
+                    <div>
+                        <strong>Status:</strong> <span id="systemStatus">Stopped</span><br>
+                        <small id="statusDetails">Click "Start Monitoring" to begin automated captures</small>
+                    </div>
+                </div>
+
+                <div class="control-buttons">
+                    <button class="sensor-btn success" id="startBtn">
+                        <i class="fas fa-play"></i>
+                        Start Monitoring
+                    </button>
+                    <button class="sensor-btn danger" id="stopBtn" disabled>
+                        <i class="fas fa-stop"></i>
+                        Stop Monitoring
+                    </button>
+                    <button class="sensor-btn primary" id="captureNowBtn">
+                        <i class="fas fa-camera"></i>
+                        Capture Now
+                    </button>
+                    <button class="sensor-btn secondary" id="testCameraBtn">
+                        <i class="fas fa-video"></i>
+                        Test Camera
+                    </button>
+                </div>
+            </div>
+
+            <div class="control-section">
+                <h3><i class="fas fa-clock"></i> Schedule Settings</h3>
+                <div style="display: flex; align-items: center; gap: 15px; flex-wrap: wrap;">
+                    <label for="intervalSelect"><strong>Capture Interval:</strong></label>
+                    <select id="intervalSelect" style="padding: 8px; border-radius: 5px; border: 1px solid #ddd;">
+                        <option value="3600000">Every Hour</option>
+                        <option value="1800000">Every 30 Minutes</option>
+                        <option value="900000">Every 15 Minutes</option>
+                        <option value="300000">Every 5 Minutes (Testing)</option>
+                        <option value="60000">Every Minute (Debug)</option>
+                    </select>
+                    <span id="nextCaptureTime" style="color: #666;"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Information -->
+        <div class="sensor-info">
+            <h3><i class="fas fa-info-circle"></i> System Information</h3>
+            <div class="info-grid">
+                <div class="info-card">
+                    <h4>Total Captures</h4>
+                    <div class="info-value" id="totalCaptures">0</div>
+                </div>
+                <div class="info-card">
+                    <h4>Today's Captures</h4>
+                    <div class="info-value" id="todayCaptures">0</div>
+                </div>
+                <div class="info-card">
+                    <h4>Last Capture</h4>
+                    <div class="info-value" id="lastCapture" style="font-size: 1rem;">Never</div>
+                </div>
+                <div class="info-card">
+                    <h4>Next Capture</h4>
+                    <div class="info-value" id="nextCapture" style="font-size: 1rem;">Not scheduled</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Captures -->
+        <div class="recent-captures">
+            <h3><i class="fas fa-history"></i> Recent Captures</h3>
+            <button class="sensor-btn secondary" onclick="refreshCaptureHistory()" style="float: right;">
+                <i class="fas fa-sync-alt"></i>
+                Refresh
+            </button>
+            <div class="capture-log" id="captureLog">
+                <div style="text-align: center; padding: 40px; color: #666;">
+                    <i class="fas fa-camera fa-3x" style="opacity: 0.3; margin-bottom: 15px;"></i><br>
+                    No captures yet. Start monitoring to begin automated captures.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden camera modal for captures -->
+    <div class="camera-modal" id="sensorCameraModal" style="display: none;">
+        <div class="camera-content">
+            <video id="sensorCameraVideo" autoplay muted></video>
+            <canvas id="sensorCameraCanvas" style="display: none;"></canvas>
+            <div class="camera-controls">
+                <button id="closeSensorCamera" class="camera-btn cancel">
+                    <i class="fas fa-times"></i>
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include all required scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="config.js"></script>
+    <script src="supabase.js"></script>
+    <script src="geolocation.js"></script>
+    <script src="sensor-manager.js"></script>
+</body>
+</html>
