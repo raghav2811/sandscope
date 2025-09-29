@@ -45,6 +45,12 @@ class CameraManager {
             usePhotoBtn.addEventListener('click', () => this.usePhoto());
         }
 
+        // Switch camera
+        const switchCameraBtn = document.getElementById('switchCameraBtn');
+        if (switchCameraBtn) {
+            switchCameraBtn.addEventListener('click', () => this.switchCamera());
+        }
+
         // Close modal on background click
         const cameraModal = document.getElementById('cameraModal');
         if (cameraModal) {
@@ -74,7 +80,7 @@ class CameraManager {
                 video: {
                     width: { ideal: 1280 },
                     height: { ideal: 720 },
-                    facingMode: 'user' // Use front camera by default
+                    facingMode: 'environment' // Use rear camera by default for better sand grain analysis
                 },
                 audio: false
             });
