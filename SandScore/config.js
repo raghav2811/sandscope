@@ -7,6 +7,18 @@ const SUPABASE_CONFIG = {
     tableName: 'uploads' // Name of your database table
 };
 
+// API Configuration
+const API_CONFIG = {
+    // Use environment-specific API URL
+    baseUrl: window.location.hostname.includes('localhost') 
+        ? 'http://localhost:8000'
+        : 'https://sandscore-api.onrender.com', // Replace with your actual Render API URL
+    endpoints: {
+        analyze: '/analyze',
+        status: '/status'
+    }
+};
+
 // Application Configuration
 const APP_CONFIG = {
     maxFileSize: 10 * 1024 * 1024, // 10MB in bytes
@@ -16,4 +28,5 @@ const APP_CONFIG = {
 
 // Export configurations for use in other files
 window.SUPABASE_CONFIG = SUPABASE_CONFIG;
+window.API_CONFIG = API_CONFIG;
 window.APP_CONFIG = APP_CONFIG;

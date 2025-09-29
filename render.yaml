@@ -1,0 +1,49 @@
+services:
+  # Main Website (Static Site)
+  - type: web
+    name: sand-grain-website
+    env: static
+    buildCommand: echo "No build required for static site"
+    staticPublishPath: ./
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: NODE_ENV
+        value: production
+
+  # SandScore Analysis Service (FastAPI Backend)
+  - type: web
+    name: sandscore-api
+    env: python
+    region: oregon
+    buildCommand: cd SandScore && pip install -r requirements.txt
+    startCommand: cd SandScore && python -m uvicorn analysis_service:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: PYTHON_VERSION
+        value: "3.11"
+      - key: PORT
+        value: "8000"
+    healthCheckPath: /
+    
+  # SandScore Frontend (Static Files)
+  - type: web
+    name: sandscore-frontend
+    env: static
+    buildCommand: echo "No build required for static files"
+    staticPublishPath: ./SandScore
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: REACT_APP_API_URL
+        fromService:
+          type: web
+          name: sandscore-api
+          property: host
