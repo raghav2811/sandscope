@@ -2,7 +2,10 @@
 class AnalysisManager {
     constructor(supabaseClient) {
         this.supabase = supabaseClient;
-        this.analysisServiceUrl = 'http://localhost:8001'; // Analysis service port
+        // Use environment-specific URL
+        this.analysisServiceUrl = window.location.hostname.includes('localhost') 
+            ? 'http://localhost:8001'
+            : 'https://sandscore-api.onrender.com'; // Replace with your actual Render URL
     }
 
     /**

@@ -370,4 +370,5 @@ async def get_all_analyses():
 
 if __name__ == "__main__":
     print("🚀 Starting Grain Analysis Service v2.0...")
-    uvicorn.run(app, host="0.0.0.0", port=8001, reload=False)
+    port = int(os.getenv("PORT", 8001))  # Use Render's PORT or default to 8001
+    uvicorn.run(app, host="0.0.0.0", port=port, reload=False)

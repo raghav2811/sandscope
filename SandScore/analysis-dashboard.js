@@ -774,8 +774,13 @@ class AnalysisDashboard {
         try {
             window.showToast('Retrying analysis...', 'info');
             
+            // Determine API URL based on environment
+            const apiBaseUrl = window.location.hostname.includes('localhost') 
+                ? 'http://localhost:8001'
+                : 'https://sandscore-api.onrender.com'; // Replace with your actual API URL
+            
             // Call the analysis API to retry processing
-            const response = await fetch(`http://localhost:8000/analyze/${uploadId}`, {
+            const response = await fetch(`${apiBaseUrl}/analyze/${uploadId}`, {
                 method: 'POST'
             });
 

@@ -328,7 +328,11 @@
                 // Close modal and redirect to Scoper application
                 closeModal();
                 setTimeout(() => {
-                    window.location.href = '../Scoper/index.html';
+                    // Use environment-aware URL
+                    const scoperUrl = window.location.hostname.includes('localhost') 
+                        ? '../Scoper/index.html'
+                        : 'https://sandscope-scoper.onrender.com';
+                    window.location.href = scoperUrl;
                 }, 1500);
             } else {
                 showNotification('Invalid scoper ID or password. Please try again.', 'error');
@@ -356,7 +360,11 @@
                 // Close modal and redirect to SandScore application
                 closeModal();
                 setTimeout(() => {
-                    window.location.href = '../SandScore/index.html';
+                    // Use environment-aware URL
+                    const sandscoreUrl = window.location.hostname.includes('localhost') 
+                        ? '../SandScore/index.html'
+                        : 'https://sandscope-sandscore-app.onrender.com';
+                    window.location.href = sandscoreUrl;
                 }, 1500);
             } else {
                 showNotification('Invalid user ID or password. Please try again.', 'error');

@@ -13,11 +13,20 @@
             <h1><i class="fas fa-cloud-upload-alt"></i> SAND SCOPE</h1>
             <p>A fast and efficient way to analyze sand grains!!</p>
             <nav class="sandscore-nav">
-                <a href="../index.html" class="nav-link-back">
+                <a href="#" class="nav-link-back" onclick="goBackToMain()">
                     <i class="fas fa-arrow-left"></i> Back to Main Site
                 </a>
             </nav>
         </header>
+
+        <script>
+        function goBackToMain() {
+            const mainUrl = window.location.hostname.includes('localhost') 
+                ? '../index.html'
+                : 'https://sandscope-main.onrender.com';
+            window.location.href = mainUrl;
+        }
+        </script>
 
         <main>
             <!-- Upload Section -->
