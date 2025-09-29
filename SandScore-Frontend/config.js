@@ -11,8 +11,8 @@ const SUPABASE_CONFIG = {
 const API_CONFIG = {
     // Use environment-specific API URL
     baseUrl: window.location.hostname.includes('localhost') 
-        ? 'http://localhost:8000'
-        : 'https://sandscore-api.onrender.com', // Replace with your actual Render API URL
+        ? 'http://localhost:8001'
+        : 'https://sandscope-sandscore-api.onrender.com', // Updated to correct Render API URL
     endpoints: {
         analyze: '/analyze',
         status: '/status'

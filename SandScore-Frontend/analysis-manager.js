@@ -5,7 +5,7 @@ class AnalysisManager {
         // Use environment-specific URL
         this.analysisServiceUrl = window.location.hostname.includes('localhost') 
             ? 'http://localhost:8001'
-            : 'https://sandscore-api.onrender.com'; // Replace with your actual Render URL
+            : 'https://sandscope-sandscore-api.onrender.com'; // Updated to correct Render API URL
     }
 
     /**

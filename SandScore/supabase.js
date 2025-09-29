@@ -300,7 +300,7 @@ class SupabaseClient {
                     // Determine API URL based on environment
                     const apiBaseUrl = window.location.hostname.includes('localhost') 
                         ? 'http://localhost:8001'
-                        : 'https://sandscore-api.onrender.com'; // Replace with your actual API URL
+                        : 'https://sandscope-sandscore-api.onrender.com'; // Updated to correct Render API URL
                     
                     // Call the new simple analysis service
                     const response = await fetch(`${apiBaseUrl}/analyze`, {
