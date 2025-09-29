@@ -466,6 +466,86 @@ class AnalysisDashboard {
                     </div>
                 </div>
             </div>
+
+            <!-- Preprocessing Steps Overview -->
+            ${this.renderPreprocessingSteps(analysis)}
+        `;
+    }
+
+    renderPreprocessingSteps(analysis) {
+        // Check if analysis has plots data
+        if (!analysis.plots || Object.keys(analysis.plots).length === 0) {
+            return '';
+        }
+
+        const plots = analysis.plots;
+        
+        const plotTitles = {
+            // Fast analyzer plots
+            'original_with_particles': 'Grain Analysis Results',
+            'size_distribution': 'Grain Size Distribution',
+            
+            // Plot extractor plots (comprehensive from grain size.py)
+            'preprocessing_steps': 'Preprocessing Steps Overview',
+            'coin_detection': 'Coin Detection Results',
+            'comprehensive_detection': 'Comprehensive Detection Analysis',
+            'statistical_analysis': 'Statistical Analysis Summary',
+            
+            // Original comprehensive analyzer plots
+            'all_detections': 'All Detections (Green=Valid, Red=Rejected)',
+            'valid_particles': 'Valid Particles (Color-coded by Size)',
+            'sand_grains': 'Sand Grains Only (< 2.0mm)',
+            'small_stones': 'Small Stones Only (≥ 2.0mm)',
+            'processed_image': 'Processed Image (Used for Detection)',
+            'detection_mask': 'Detection Mask (White=Search, Black=Excluded)',
+            'rejection_reasons': 'Rejection Reasons Breakdown',
+            'composition': 'Composition: Sand vs Stones',
+            
+            // Preprocessing plots (from hybrid analyzer)
+            'original': 'Original Image',
+            'grayscale': 'Grayscale Conversion',
+            'edges': 'Edge Detection (Canny)',
+            'threshold': 'Binary Threshold (OTSU)',
+            
+            // Advanced comprehensive plots
+            'size_histogram': 'Size Distribution Histogram',
+            'cumulative_distribution': 'Cumulative Size Distribution',
+            'statistical_summary': 'Statistical Summary Box Plot',
+            'log_scale_distribution': 'Log-Scale Distribution',
+            'shadow_correction': 'Shadow Correction Process',
+            'particle_classification': 'Particle Classification by Size',
+            'l_channel': 'L Channel (Luminance)',
+            'clahe_enhanced': 'CLAHE Enhanced L Channel',
+            'background_illumination': 'Background Illumination',
+            'shadow_corrected': 'Shadow Corrected',
+            'final_preprocessed': 'Final Preprocessed',
+            'histogram_comparison': 'Histogram Comparison'
+        };
+
+        const plotsHtml = Object.entries(plots).map(([plotKey, plotData]) => `
+            <div class="analysis-card" style="margin-bottom: 20px;">
+                <h3 style="margin: 0 0 15px 0; text-align: center;">
+                    <i class="fas fa-chart-area" style="margin-right: 8px;"></i>
+                    ${plotTitles[plotKey] || plotKey.replace('_', ' ').toUpperCase()}
+                </h3>
+                <div style="text-align: center; background: #f5f5f5; border-radius: 8px; padding: 20px;">
+                    <img src="data:image/png;base64,${plotData}" 
+                         alt="${plotTitles[plotKey] || plotKey}" 
+                         style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+                </div>
+            </div>
+        `).join('');
+
+        return `
+            <div class="analysis-card" style="margin-bottom: 20px;">
+                <h3 style="margin: 0 0 20px 0; text-align: center; color: var(--accent-color);">
+                    <i class="fas fa-cogs" style="margin-right: 8px;"></i>
+                    Analysis Plots & Preprocessing Steps
+                </h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 20px;">
+                    ${plotsHtml}
+                </div>
+            </div>
         `;
     }
 
